@@ -6,4 +6,4 @@ instance method.
 The calling code shows that Partial application is a reasonable way around that.
 Partial Application - see definition.js:
 
-Question:
+See question.js for calling code discussion as well.
