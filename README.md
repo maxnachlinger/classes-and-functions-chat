@@ -27,3 +27,5 @@ starting-up a system and running it being separate responsibilities.
 Quick segue showing how to use the require.cache and partial application to avoid passing shared config around. There
 is also an opportunity to discuss object being passed by reference in javascript and how making deep copies or
 using immutable structures helps here.
+
+Pass 7: 2 common ways of doing that are shown.
