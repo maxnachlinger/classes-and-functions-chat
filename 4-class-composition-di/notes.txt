@@ -1,0 +1,14 @@
+This attempts to add logging by creating a class which adds logging to ThingRequest by having an instance of
+ThingRequest injected into it.
+
+Dependency Injection - a fancy term for passing a class it's dependencies.
+
+Say I have a class ValidatedThingRequest whose constructor instantiates a ThingRequest for use in ValidatedThingRequest.
+Now ValidatedThingRequest has a dependency on ThingRequest, but notice that:
+
+1. This dependency isn't explicit, which means it's harder to find and easier to break ValidatedThingRequest when you
+change ThingRequest.
+2. ValidatedThingRequest is not responsible for creating and destroying that instance of ThingRequest.
+3. It's also harder to test ValidatedThingRequest since we can easily supply a mocked ThingRequest.
+
+Dependency injection solves all these issues:
