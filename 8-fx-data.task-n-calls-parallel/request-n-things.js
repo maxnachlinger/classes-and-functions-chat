@@ -5,8 +5,8 @@ const Task = require('data.task');
 const request = require('request');
 const futurize = require('futurize').futurize(Task);
 
-const validate = futurize(joi.validate);
-const webRequest = futurize(request);
+const validateT = futurize(joi.validate);
+const requestT = futurize(request);
 
 const prepareParams = (serviceConfig, requestOptions) => {
   const schema = {
@@ -19,7 +19,7 @@ const prepareParams = (serviceConfig, requestOptions) => {
       accessKey: joi.string().required()
     })
   };
-  return validate({ serviceConfig, requestOptions }, schema);
+  return validateT({ serviceConfig, requestOptions }, schema);
 };
 
 const prepareRequestParams = (options) => {
@@ -44,7 +44,7 @@ const transformResults = (results) => {
 
 const makeRequest = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
   .map((options) => prepareRequestParams(options))
-  .chain((requestParams) => webRequest(requestParams));
+  .chain((requestParams) => requestT(requestParams));
 
 module.exports.request = (serviceConfig, requestOptions) => {
   return Task.of((r0) => (r1) => (r2) => transformResults([r0, r1, r2]))

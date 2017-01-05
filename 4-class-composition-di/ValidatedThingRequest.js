@@ -2,7 +2,8 @@
 
 const joi = require('joi');
 const Promise = require('bluebird');
-const validate = Promise.promisify(joi.validate, { context: joi });
+
+const validateP = Promise.promisify(joi.validate, { context: joi });
 
 const schema = {
   responseSchema: joi.object().required(),
@@ -18,7 +19,7 @@ class ValidatedThingRequest {
 
   request (requestOptions) {
     return this._thingRequest.request(requestOptions)
-      .then((result) => validate(result, this._responseSchema));
+      .then((result) => validateP(result, this._responseSchema));
   }
 }
 module.exports = ValidatedThingRequest;

@@ -4,7 +4,8 @@ const _ = require('lodash');
 const joi = require('joi');
 const ThingRequest = require('./ThingRequest');
 const Promise = require('bluebird');
-const validate = Promise.promisify(joi.validate, { context: joi });
+
+const validateP = Promise.promisify(joi.validate, { context: joi });
 
 const serviceConfigSchema = Object.assign({}, ThingRequest.serviceConfigSchema, {
   responseSchema: joi.object().required()
@@ -20,7 +21,7 @@ class ValidatedThingRequest extends ThingRequest {
 
   request (requestOptions) {
     return super.request(requestOptions)
-      .then((result) => validate(result, this._responseSchema));
+      .then((result) => validateP(result, this._responseSchema));
   }
 }
 module.exports = ValidatedThingRequest;

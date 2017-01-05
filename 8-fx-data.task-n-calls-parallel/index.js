@@ -7,7 +7,7 @@ const run = require('../run');
 const requestThings = require('./request-n-things');
 const passThru = require('./pass-thru');
 
-const validate = futurize(joi.validate);
+const validateT = futurize(joi.validate);
 
 const serviceConfig = {
   url: 'http://localhost:9000',
@@ -24,7 +24,7 @@ const request = _.partial(requestThings.request, serviceConfig);
 
 const task = request({ type: 'cool', limit: 20 })
   .map(passThru((result) => console.log(['info'], `Received ${result.length} items`)))
-  .chain((result) => validate(result, responseSchema));
+  .chain((result) => validateT(result, responseSchema));
 
 run(
   () => new Promise((resolve, reject) => task.fork(reject, resolve))

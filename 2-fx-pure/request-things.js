@@ -2,8 +2,9 @@
 const urlLib = require('url'); // urlLib since 'url' is a nice var name :)
 const joi = require('joi');
 const Promise = require('bluebird');
-const requestLib = Promise.promisify(require('request'));
-const validate = Promise.promisify(joi.validate, { context: joi });
+
+const requestP = Promise.promisify(require('request'));
+const validateP = Promise.promisify(joi.validate, { context: joi });
 
 const prepareParams = (serviceConfig, requestOptions) => {
   const schema = {
@@ -16,7 +17,7 @@ const prepareParams = (serviceConfig, requestOptions) => {
       accessKey: joi.string().required()
     })
   };
-  return validate({ serviceConfig, requestOptions }, schema);
+  return validateP({ serviceConfig, requestOptions }, schema);
 };
 
 const prepareRequestParams = (options) => {
@@ -35,11 +36,11 @@ const prepareRequestParams = (options) => {
   };
 };
 
-const transformResults = (results) => results ? results.body : {};
+const transformResults = (results) => results ? results.body : [];
 
 module.exports.request = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
   .then((options) => prepareRequestParams(options))
-  .then((requestParams) => requestLib(requestParams))
+  .then((requestParams) => requestP(requestParams))
   .then((results) => transformResults(results));
 
 // for testing

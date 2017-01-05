@@ -2,7 +2,7 @@
 const urlLib = require('url');
 const joi = require('joi');
 const Promise = require('bluebird');
-const requestLib = Promise.promisify(require('request'));
+const requestP = Promise.promisify(require('request'));
 
 const serviceConfigSchema = {
   url: joi.string().required(),
@@ -37,7 +37,7 @@ class ThingRequest {
         limit: requestOptions.limit
       }
     }));
-    return requestLib({ url, headers: this._headers, json: true })
+    return requestP({ url, headers: this._headers, json: true })
       .then((results) => results.body);
   }
 }

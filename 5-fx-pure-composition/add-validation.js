@@ -2,10 +2,11 @@
 const joi = require('joi');
 const Promise = require('bluebird');
 const passThru = require('./pass-thru');
-const validate = Promise.promisify(joi.validate, { context: joi });
+
+const validateP = Promise.promisify(joi.validate, { context: joi });
 
 module.exports = (schema) => (promise) => {
   return promise
     .then(passThru((result) => console.log(['info'], `Received ${result.length} items`)))
-    .then((result) => validate(result, schema));
+    .then((result) => validateP(result, schema));
 };
