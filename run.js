@@ -8,14 +8,10 @@ const onRequest = (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application/json' });
 
   const url = urlLib.parse(req.url, true);
-  const type = _.get(url, 'query.thing-type', 'test');
+  const type = _.get(url, 'query.thing-type', 'default-type');
   const limit = parseInt(_.get(url, 'query.limit', '10'), 10);
 
-  const things = Array.from(new Array(limit), (x, i) => ({
-    id: i,
-    name: `Thing ${i}`,
-    type
-  }));
+  const things = Array.from(new Array(limit), (x, i) => ({ id: i, name: `Thing ${i}`, type }));
 
   res.end(JSON.stringify(things));
 };
