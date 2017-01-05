@@ -29,3 +29,5 @@ is also an opportunity to discuss object being passed by reference in javascript
 using immutable structures helps here.
 
 * Pass 7: 2 common ways of doing that are shown.
+
+* Pass 8: Simple way of running a few data.task monads in parallel.

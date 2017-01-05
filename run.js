@@ -4,7 +4,7 @@ const http = require('http');
 const Promise = require('bluebird');
 const _ = require('lodash');
 
-const onRequest = (req, res) => {
+const getThings = (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application/json' });
 
   const url = urlLib.parse(req.url, true);
@@ -14,6 +14,21 @@ const onRequest = (req, res) => {
   const things = Array.from(new Array(limit), (x, i) => ({ id: i, name: `Thing ${i}`, type }));
 
   res.end(JSON.stringify(things));
+};
+
+const notFound = (req, res) => {
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.end();
+};
+
+const routes = {
+  '/thing': getThings
+};
+
+const onRequest = (req, res) => {
+  const pathname = urlLib.parse(req.url).pathname;
+  const route = routes[pathname] || notFound;
+  return route(req, res);
 };
 
 const start = (port) => new Promise((resolve) => {
@@ -31,7 +46,8 @@ module.exports = (fx) => {
       return fx();
     })
     .then((results) => {
-      console.log('results:', results);
+      results = results || [];
+      console.log(`results: ${results.length} items, first few results:`, results.slice(0, 3));
       serverStopFn();
       process.exit(0);
     })
