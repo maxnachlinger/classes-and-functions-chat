@@ -17,4 +17,7 @@ Why should I care about all this Pure Function nonsense anyway?
 
 Changes:
 Pure functions prepareParams, prepareRequestParams, transformResults extracted.
+
 Promises are used as a means of composition of those pure functions.
+
+Another benefit of this code is that each function gets just enough state to do it's job.
