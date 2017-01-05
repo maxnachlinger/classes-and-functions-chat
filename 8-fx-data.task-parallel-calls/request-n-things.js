@@ -3,6 +3,7 @@ const urlLib = require('url'); // urlLib since 'url' is a nice var name :)
 const joi = require('joi');
 const Task = require('data.task');
 const request = require('request');
+const R = require('ramda');
 const futurize = require('futurize').futurize(Task);
 
 const validateT = futurize(joi.validate);
@@ -23,10 +24,8 @@ const prepareParams = (serviceConfig, requestOptions) => {
 };
 
 const prepareRequestParams = (options) => {
-  const url = options.serviceConfig.url;
-  const accessKey = options.serviceConfig.accessKey;
-  const type = options.requestOptions.type;
-  const limit = options.requestOptions.limit;
+  const { url, accessKey } = options.serviceConfig;
+  const { type, limit } = options.requestOptions;
 
   return {
     url: urlLib.format(Object.assign(urlLib.parse(url), {
@@ -38,7 +37,7 @@ const prepareRequestParams = (options) => {
   };
 };
 
-const transformResults = (results) => {
+const transformResults = (...results) => {
   return results.reduce((acc, a) => acc.concat(a.body || []), []);
 };
 
@@ -46,12 +45,16 @@ const makeRequest = (serviceConfig, requestOptions) => prepareParams(serviceConf
   .map((options) => prepareRequestParams(options))
   .chain((requestParams) => requestT(requestParams));
 
-module.exports.request = (serviceConfig, requestOptions) => {
-  return Task.of((r0) => (r1) => (r2) => transformResults([r0, r1, r2]))
-    .ap(makeRequest(serviceConfig, requestOptions))
-    .ap(makeRequest(serviceConfig, requestOptions))
-    .ap(makeRequest(serviceConfig, requestOptions));
-};
+
+module.exports.request = (serviceConfig, requestOptions) => R.liftN(3, transformResults)(
+  makeRequest(serviceConfig, requestOptions),
+  makeRequest(serviceConfig, requestOptions),
+  makeRequest(serviceConfig, requestOptions)
+);
+
+// OR
+// return Task.of((r0) => (r1) => (r2) => transformResults([r0, r1, r2]))
+//   .ap(makeRequest(serviceConfig, requestOptions)) ....
 
 // for testing
 module.exports.internals = { prepareParams, prepareRequestParams };
