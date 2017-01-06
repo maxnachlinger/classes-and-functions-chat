@@ -45,7 +45,6 @@ const makeRequest = (serviceConfig, requestOptions) => prepareParams(serviceConf
   .map((options) => prepareRequestParams(options))
   .chain((requestParams) => requestT(requestParams));
 
-
 module.exports.request = (serviceConfig, requestOptions) => R.liftN(3, transformResults)(
   makeRequest(serviceConfig, requestOptions),
   makeRequest(serviceConfig, requestOptions),
