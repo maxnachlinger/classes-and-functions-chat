@@ -22,7 +22,7 @@ const responseSchema = joi.array().items(joi.object().keys({
 
 const request = _.partial(requestThings.request, serviceConfig)
 
-const task = request({ type: 'cool', limit: 20 })
+const task = request({type: 'cool', limit: 20})
   .map(passThru((result) => console.log(['info'], `Received ${result.length} items`)))
   .chain((result) => validateT(result, responseSchema))
 

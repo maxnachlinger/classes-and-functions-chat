@@ -37,7 +37,7 @@ class ThingRequest {
         limit: requestOptions.limit
       }
     }))
-    return requestP({ url, headers: this._headers, json: true })
+    return requestP({url, headers: this._headers, json: true})
       .then((results) => results.body)
   }
 }

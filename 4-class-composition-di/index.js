@@ -19,5 +19,5 @@ const thingRequest = new ThingRequest(serviceConfig)
 const loggingThingRequest = new ValidatedThingRequest(responseSchema, thingRequest)
 
 run(() => {
-  return loggingThingRequest.request({ type: 'cool', limit: 20 })
+  return loggingThingRequest.request({type: 'cool', limit: 20})
 })

@@ -11,5 +11,5 @@ const serviceConfig = {
 const request = _.partial(requestThings.request, serviceConfig)
 
 run(() => {
-  return request({ type: 'cool', limit: 20 })
+  return request({type: 'cool', limit: 20})
 })

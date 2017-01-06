@@ -5,19 +5,19 @@ const Promise = require('bluebird')
 const _ = require('lodash')
 
 const getThings = (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' })
+  res.writeHead(200, {'Content-Type': 'application/json'})
 
   const url = urlLib.parse(req.url, true)
   const type = _.get(url, 'query.thing-type', 'default-type')
   const limit = parseInt(_.get(url, 'query.limit', '10'), 10)
 
-  const things = Array.from(new Array(limit), (x, i) => ({ id: i, name: `Thing ${i}`, type }))
+  const things = Array.from(new Array(limit), (x, i) => ({id: i, name: `Thing ${i}`, type}))
 
   res.end(JSON.stringify(things))
 }
 
 const notFound = (req, res) => {
-  res.writeHead(404, { 'Content-Type': 'application/json' })
+  res.writeHead(404, {'Content-Type': 'application/json'})
   res.end()
 }
 
@@ -33,7 +33,7 @@ const onRequest = (req, res) => {
 
 const start = (port) => new Promise((resolve) => {
   const server = http.createServer(onRequest)
-  const stopServer = () => Promise.promisify(server.close, { context: server })
+  const stopServer = () => Promise.promisify(server.close, {context: server})
   return server.listen(port || 9000, () => resolve(stopServer))
 })
 

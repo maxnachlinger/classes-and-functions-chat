@@ -10,5 +10,5 @@ const serviceConfig = {
 const thingRequest = new ThingRequest(serviceConfig)
 
 run(() => {
-  return thingRequest.request({ type: 'cool', limit: 20 })
+  return thingRequest.request({type: 'cool', limit: 20})
 })

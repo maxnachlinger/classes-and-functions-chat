@@ -5,11 +5,11 @@ const instance = new ThingRequest(serviceConfig)
 
 // many lines of code later...
 
-instance.request({ type: 'squirrels', limit: 20 })
+instance.request({type: 'squirrels', limit: 20})
   .then((results) => console.log(results))
   .catch((err) => console.error(err.stack || err))
 
 // or a method you call passing 2 args?
-request(serviceConfig, { type: 'squirrels', limit: 20 })
+request(serviceConfig, {type: 'squirrels', limit: 20})
   .then((results) => console.log(results))
   .catch((err) => console.error(err.stack || err))

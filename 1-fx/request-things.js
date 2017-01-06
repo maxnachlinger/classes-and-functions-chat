@@ -17,17 +17,17 @@ const schema = {
 }
 
 module.exports.request = (serviceConfig, requestOptions) => {
-  const validationError = joi.validate({ serviceConfig, requestOptions }, schema).error
+  const validationError = joi.validate({serviceConfig, requestOptions}, schema).error
   if (validationError) {
     return Promise.reject(validationError)
   }
 
   const url = urlLib.format(Object.assign(urlLib.parse(serviceConfig.url), {
     pathname: '/thing',
-    query: { 'thing-type': requestOptions.type, limit: requestOptions.limit }
+    query: {'thing-type': requestOptions.type, limit: requestOptions.limit}
   }))
 
-  const headers = { 'Access-Key': serviceConfig.accessKey }
-  return requestP({ url, headers, json: true })
+  const headers = {'Access-Key': serviceConfig.accessKey}
+  return requestP({url, headers, json: true})
     .then((results) => results.body)
 }

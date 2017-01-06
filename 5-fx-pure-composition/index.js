@@ -20,6 +20,6 @@ const request = _.partial(requestThings.request, serviceConfig)
 
 run(() => {
   return addValidation(responseSchema)(
-    request({ type: 'cool', limit: 20 })
+    request({type: 'cool', limit: 20})
   )
 })

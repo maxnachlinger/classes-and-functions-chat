@@ -3,7 +3,7 @@
 const joi = require('joi')
 const Promise = require('bluebird')
 
-const validateP = Promise.promisify(joi.validate, { context: joi })
+const validateP = Promise.promisify(joi.validate, {context: joi})
 
 const schema = {
   responseSchema: joi.object().required(),
@@ -12,7 +12,7 @@ const schema = {
 
 class ValidatedThingRequest {
   constructor (responseSchema, thingRequest) {
-    joi.assert({ responseSchema, thingRequest }, schema, 'Invalid parameters')
+    joi.assert({responseSchema, thingRequest}, schema, 'Invalid parameters')
     this._responseSchema = responseSchema
     this._thingRequest = thingRequest
   }

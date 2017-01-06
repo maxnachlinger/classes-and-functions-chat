@@ -19,19 +19,19 @@ const prepareParams = (serviceConfig, requestOptions) => {
       accessKey: joi.string().required()
     })
   }
-  return validateT({ serviceConfig, requestOptions }, schema)
+  return validateT({serviceConfig, requestOptions}, schema)
 }
 
 const prepareRequestParams = (options) => {
-  const { url, accessKey } = options.serviceConfig
-  const { type, limit } = options.requestOptions
+  const {url, accessKey} = options.serviceConfig
+  const {type, limit} = options.requestOptions
 
   return {
     url: urlLib.format(Object.assign(urlLib.parse(url), {
       pathname: '/thing',
-      query: { 'thing-type': type, limit }
+      query: {'thing-type': type, limit}
     })),
-    headers: { 'Access-Key': accessKey },
+    headers: {'Access-Key': accessKey},
     json: true
   }
 }
@@ -44,4 +44,4 @@ module.exports.request = (serviceConfig, requestOptions) => prepareParams(servic
   .map((results) => transformResults(results))
 
 // for testing
-module.exports.internals = { prepareParams, prepareRequestParams }
+module.exports.internals = {prepareParams, prepareRequestParams}

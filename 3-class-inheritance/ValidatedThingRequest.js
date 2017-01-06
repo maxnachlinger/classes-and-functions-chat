@@ -5,7 +5,7 @@ const joi = require('joi')
 const ThingRequest = require('./ThingRequest')
 const Promise = require('bluebird')
 
-const validateP = Promise.promisify(joi.validate, { context: joi })
+const validateP = Promise.promisify(joi.validate, {context: joi})
 
 const serviceConfigSchema = Object.assign({}, ThingRequest.serviceConfigSchema, {
   responseSchema: joi.object().required()

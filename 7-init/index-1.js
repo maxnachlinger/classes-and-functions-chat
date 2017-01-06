@@ -9,5 +9,5 @@ const serviceConfig = {
 requestWrapper.init(serviceConfig)
 
 run(() => {
-  return requestWrapper.request({ type: 'cool', limit: 20 })
+  return requestWrapper.request({type: 'cool', limit: 20})
 })
