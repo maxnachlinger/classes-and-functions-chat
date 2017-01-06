@@ -1,6 +1,6 @@
-const deepCopy = require('deep-copy');
+const deepCopy = require('deep-copy')
 
 module.exports = (fn) => (data) => {
-  fn(deepCopy(data));
-  return data;
-};
+  fn(deepCopy(data))
+  return data
+}

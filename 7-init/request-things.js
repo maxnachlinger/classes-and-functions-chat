@@ -1,10 +1,10 @@
-'use strict';
-const urlLib = require('url'); // urlLib since 'url' is a nice var name :)
-const joi = require('joi');
-const Promise = require('bluebird');
+'use strict'
+const urlLib = require('url') // urlLib since 'url' is a nice var name :)
+const joi = require('joi')
+const Promise = require('bluebird')
 
-const requestP = Promise.promisify(require('request'));
-const validateP = Promise.promisify(joi.validate, { context: joi });
+const requestP = Promise.promisify(require('request'))
+const validateP = Promise.promisify(joi.validate, { context: joi })
 
 const prepareParams = (serviceConfig, requestOptions) => {
   const schema = {
@@ -16,15 +16,15 @@ const prepareParams = (serviceConfig, requestOptions) => {
       url: joi.string().required(),
       accessKey: joi.string().required()
     })
-  };
-  return validateP({ serviceConfig, requestOptions }, schema);
-};
+  }
+  return validateP({ serviceConfig, requestOptions }, schema)
+}
 
 const prepareRequestParams = (options) => {
-  const url = options.serviceConfig.url;
-  const accessKey = options.serviceConfig.accessKey;
-  const type = options.requestOptions.type;
-  const limit = options.requestOptions.limit;
+  const url = options.serviceConfig.url
+  const accessKey = options.serviceConfig.accessKey
+  const type = options.requestOptions.type
+  const limit = options.requestOptions.limit
 
   return {
     url: urlLib.format(Object.assign(urlLib.parse(url), {
@@ -33,15 +33,15 @@ const prepareRequestParams = (options) => {
     })),
     headers: { 'Access-Key': accessKey },
     json: true
-  };
-};
+  }
+}
 
-const transformResults = (results) => results ? results.body : [];
+const transformResults = (results) => results ? results.body : []
 
 module.exports.request = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
   .then((options) => prepareRequestParams(options))
   .then((requestParams) => requestP(requestParams))
-  .then((results) => transformResults(results));
+  .then((results) => transformResults(results))
 
 // for testing
-module.exports.internals = { prepareParams, prepareRequestParams };
+module.exports.internals = { prepareParams, prepareRequestParams }

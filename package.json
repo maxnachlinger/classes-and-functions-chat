@@ -4,7 +4,7 @@
   "description": "An exploration of some ideas around functions and classes in Javascript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/standard | ./node_modules/.bin/snazzy"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -17,5 +17,15 @@
     "request": "^2.79.0"
   },
   "author": "Max Naxchlinger",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "snazzy": "^5.0.0",
+    "standard": "^8.6.0"
+  },
+  "standard": {
+    "ignore": [
+      "definition.js",
+      "question.js"
+    ]
+  }
 }

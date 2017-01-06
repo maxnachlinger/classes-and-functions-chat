@@ -1,12 +1,12 @@
-'use strict';
-const urlLib = require('url'); // urlLib since 'url' is a nice var name :)
-const joi = require('joi');
-const Task = require('data.task');
-const request = require('request');
-const futurize = require('futurize').futurize(Task);
+'use strict'
+const urlLib = require('url') // urlLib since 'url' is a nice var name :)
+const joi = require('joi')
+const Task = require('data.task')
+const request = require('request')
+const futurize = require('futurize').futurize(Task)
 
-const validateT = futurize(joi.validate);
-const requestT = futurize(request);
+const validateT = futurize(joi.validate)
+const requestT = futurize(request)
 
 const prepareParams = (serviceConfig, requestOptions) => {
   const schema = {
@@ -18,13 +18,13 @@ const prepareParams = (serviceConfig, requestOptions) => {
       url: joi.string().required(),
       accessKey: joi.string().required()
     })
-  };
-  return validateT({ serviceConfig, requestOptions }, schema);
-};
+  }
+  return validateT({ serviceConfig, requestOptions }, schema)
+}
 
 const prepareRequestParams = (options) => {
-  const { url, accessKey } = options.serviceConfig;
-  const { type, limit } = options.requestOptions;
+  const { url, accessKey } = options.serviceConfig
+  const { type, limit } = options.requestOptions
 
   return {
     url: urlLib.format(Object.assign(urlLib.parse(url), {
@@ -33,15 +33,15 @@ const prepareRequestParams = (options) => {
     })),
     headers: { 'Access-Key': accessKey },
     json: true
-  };
-};
+  }
+}
 
-const transformResults = (results) => results ? results.body : [];
+const transformResults = (results) => results ? results.body : []
 
 module.exports.request = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
   .map((options) => prepareRequestParams(options))
   .chain((requestParams) => requestT(requestParams))
-  .map((results) => transformResults(results));
+  .map((results) => transformResults(results))
 
 // for testing
-module.exports.internals = { prepareParams, prepareRequestParams };
+module.exports.internals = { prepareParams, prepareRequestParams }
