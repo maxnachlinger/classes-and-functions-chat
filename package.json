@@ -4,7 +4,7 @@
   "description": "An exploration of some ideas around functions and classes in Javascript",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/standard | ./node_modules/.bin/snazzy"
+    "test": "./node_modules/.bin/standard --verbose | ./node_modules/.bin/snazzy"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -21,11 +21,5 @@
   "devDependencies": {
     "snazzy": "^5.0.0",
     "standard": "^8.6.0"
-  },
-  "standard": {
-    "ignore": [
-      "definition.js",
-      "question.js"
-    ]
   }
 }
