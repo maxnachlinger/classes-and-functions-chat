@@ -1,9 +1,9 @@
 ### Changes
-pass-thru is extracted since it's a common requirement to call a function on a promise with the promise's result and
-return the promise's result.
+``pass-thru.js`` is extracted since it's a common requirement to call a function on a promise with the promise's result and pass that promise's result through to the next ``.then()`` handler.
 
-add-validation simply adds a validation check to the result of a promise, this is another bit of reusable code.
-Both functions are curried.
+``add-validation.js`` simply adds a validation check to the result of a promise, this is another bit of reusable code.
+
+Both functions are curried. In case you have no idea what currying is:
 
 ### Currying
 
@@ -23,7 +23,16 @@ const _ = require('lodash')
 // (type) => {}
 const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-access-key')
 ```
+This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (arity == number of argumentS BTW) can be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry without using ``Function.length``, please let me know :)
 
-When creating functions think of what arguments you're going to have values for first and put those at the beginning.
-
-PS Hey ``joi.validate`` I always have my schema way before I have my stuff to validate! I sure wish ``schema`` was the 1st arg :)
+One thing I find helpful when creating new functions is to think of the arguments you're going to have values for right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
+```javascript
+// instead of: validate(value, schema, [options], [callback])
+// how about: validate(schema, value, [options], [callback]) ?
+```
+Then we could do cool stuff like:
+```javascript
+const validate = _.curry(joi.validate, {
+  name: joi.string().required()
+}); // --> (value, [options], [callback]) => {}
+```
