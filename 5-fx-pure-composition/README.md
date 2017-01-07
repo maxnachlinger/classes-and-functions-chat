@@ -24,3 +24,5 @@ const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-acces
 ```
 
 When creating functions think of what arguments you're going to have values for first and put those at the beginning.
+
+PS Hey ``joi.validate`` I always have my schema way before I have my stuff to validate! I sure wish ``schema`` was the 1st arg :)

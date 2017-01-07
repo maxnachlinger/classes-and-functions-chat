@@ -5,3 +5,5 @@ the error out to the client, which is where those concerns belong.
 
 In systems, how the system is setup and started is a separate concern from how it runs. This captures that. You can
 keep composing on to the Task via map and chain until you call fork.
+
+No, I'm not going into Monads here :)
