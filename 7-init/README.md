@@ -16,7 +16,6 @@ init-1.js
 ``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses that variable.
 
 ### Warning
-
 Passing around shared config means that any function which receives a reference to that shared config can now screw
 with it. These kinds of side-effects are especially hard to track down.
 
@@ -24,5 +23,4 @@ So, we need to share this config, but we don't want to give every function which
 to screw it up.
 
 ### Solution
-Solution: don't give them a reference, give them a value :) That's why the shared variable reference is _always_ keep
-copied to provide it to ``request()`` as a value.
+Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied in the examples.
