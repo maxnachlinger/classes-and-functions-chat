@@ -1,5 +1,13 @@
 ### classes-and-functions-chat
 
+#### Installation
+```shell
+npm i
+```
+More info about each approach by reading the README in each directory. You can also run the ``index.js`` file in each directory as well. The best documentation is really the code, it's simple, have a look :)
+
+#### Overview
+
 We start out with some functionality that makes a simple request to get a set of things.
 
 - Pass 0: Simple fetch via a class.
