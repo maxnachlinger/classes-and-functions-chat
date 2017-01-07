@@ -1,8 +1,8 @@
-#### Changes
+### Changes
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
 ``ThingRequest`` injected into it.
 
-#### Dependency Injection
+### Dependency Injection
 
 A fancy term for passing a class it's dependencies.
 

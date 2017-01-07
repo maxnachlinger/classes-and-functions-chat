@@ -1,7 +1,7 @@
-#### Changes 
+### Changes 
 A ``ThingRequest`` class.
 
-#### Question:
+### Question:
 Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.

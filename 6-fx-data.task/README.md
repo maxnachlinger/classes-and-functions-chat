@@ -1,4 +1,4 @@
-#### Changes
+### Changes
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 
 The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling

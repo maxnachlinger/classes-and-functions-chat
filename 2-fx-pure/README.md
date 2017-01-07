@@ -1,4 +1,4 @@
-#### Changes:
+### Changes:
 Pure functions prepareParams, prepareRequestParams, transformResults extracted.
 
 Promises are used as a means of composition of those pure functions.
@@ -7,7 +7,7 @@ Another benefit of this code is that each function gets just enough state to do 
 
 What's a Pure function?
 
-#### Pure Function:
+### Pure Function:
 
 A fancy phrase which means a function that:
 * given the same input will always return the same output
