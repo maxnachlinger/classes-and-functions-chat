@@ -4,6 +4,7 @@ Some folks claim a benefit of classes is that you don't have to pass the state g
 instance method. The calling code shows that Partial application is a reasonable way around that.
 
 Partial Application:
+
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
 const getStuff = (url, accessKey, type) => {
