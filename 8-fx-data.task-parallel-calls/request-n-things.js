@@ -40,8 +40,9 @@ const prepareRequestParams = (options) => {
   }
 }
 
-const transformResults = (...results) => {
-  return results.reduce((acc, a) => acc.concat(a.body || []), [])
+// in node > 4 we could have used ...results :(
+const transformResults = (r0, r1, r2) => {
+  return [r0, r1, r2].reduce((acc, a) => acc.concat(a.body || []), [])
 }
 
 const makeRequest = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
@@ -54,9 +55,11 @@ module.exports.request = (serviceConfig, requestOptions) => R.liftN(3, transform
   makeRequest(serviceConfig, requestOptions)
 )
 
-// OR
+// OR using .ap()
 // return Task.of((r0) => (r1) => (r2) => transformResults([r0, r1, r2]))
-//   .ap(makeRequest(serviceConfig, requestOptions)) ....
+//   .ap(makeRequest(serviceConfig, requestOptions))
+//   .ap(makeRequest(serviceConfig, requestOptions))
+//   .ap(makeRequest(serviceConfig, requestOptions))
 
 // for testing
 module.exports.internals = {prepareParams, prepareRequestParams}
