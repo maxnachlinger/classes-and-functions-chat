@@ -2,9 +2,9 @@
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
 Some folks claim a benefit of classes is that you don't have to pass the state given to the constructor along to each
-instance method. The calling code shows that partial application is a reasonable way around that.
+instance method. The calling code in ``index.js`` shows that partial application is a reasonable way around that.
 
-In case you don't know:
+In case you don't know what partial application is:
 
 ### Partial Application:
 
