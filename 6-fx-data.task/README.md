@@ -2,7 +2,9 @@
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 
 The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling
-the error out to the client, which is where those concerns belong.
+the error out to the client, which is where those concerns belong. Another benefit is that we could call ``request()``
+and then get something back which we can easily compose before calling ``fork()`` on.
 
 In systems, how the system is setup and started is a separate concern from how it runs. This captures that. You can
-keep composing on to the Task via ``.map()`` and ``.chain()`` until you call ``.fork()`` which then executes the Task(s) and allows the caller to handle the result/error.
+keep composing on to the Task via ``.map()`` and ``.chain()`` until you call ``.fork()`` which then executes the 
+Task(s) and allows the caller to handle the result/error.
