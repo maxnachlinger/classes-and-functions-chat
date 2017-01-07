@@ -3,7 +3,7 @@ const _ = require('lodash')
 const joi = require('joi')
 const Task = require('data.task')
 const futurize = require('futurize').futurize(Task)
-const run = require('../run')
+const run = require('../_etc/run')
 const requestThings = require('./request-n-things')
 const passThru = require('./pass-thru')
 

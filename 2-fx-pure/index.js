@@ -1,6 +1,6 @@
 'use strict'
 const _ = require('lodash')
-const run = require('../run')
+const run = require('../_etc/run')
 const requestThings = require('./request-things')
 
 const serviceConfig = {

@@ -1,6 +1,6 @@
 'use strict'
 const joi = require('joi')
-const run = require('../run')
+const run = require('../_etc/run')
 const ThingRequest = require('./ThingRequest')
 const ValidatedThingRequest = require('./ValidatedThingRequest')
 

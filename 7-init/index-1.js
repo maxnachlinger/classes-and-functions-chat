@@ -1,5 +1,5 @@
 'use strict'
-const run = require('../run')
+const run = require('../_etc/run')
 const requestWrapper = require('./init-1')
 
 const serviceConfig = {
