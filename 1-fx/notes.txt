@@ -1,8 +1,0 @@
-This is an attempt to simplify request(). Now more of the function's state comes from it's arguments.
-
-Some folks claim a benefit of classes is that you don't have to pass the state given to the constructor along to each
-instance method. The calling code shows that Partial application is a reasonable way around that.
-
-What's Partial Application? See definition.js:
-
-For a discussion on the calling code, see question.js.
