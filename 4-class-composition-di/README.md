@@ -35,7 +35,7 @@ class ValidatedThingRequest {
 ```
 We're _injecting_ ``ValidatedThingRequest``'s ``ThingRequest`` dependency. 
 
-Now we can easily mock thingRequest, and ``ValidatedThingRequest`` isn't responsible for managing ``ThingRequest`` is can simply use the instance passed in.
+Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` isn't responsible for managing ``ThingRequest``. It can simply use the instance passed in.
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
 Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
