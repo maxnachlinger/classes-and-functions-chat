@@ -1,13 +1,9 @@
 'use strict'
 const joi = require('joi')
 const run = require('../_etc/run')
+const serviceConfig = require('../_etc/service-config')
 const ThingRequest = require('./ThingRequest')
 const ValidatedThingRequest = require('./ValidatedThingRequest')
-
-const serviceConfig = {
-  url: 'http://localhost:9000',
-  accessKey: '1234567890'
-}
 
 const responseSchema = joi.array().items(joi.object().keys({
   id: joi.number().integer().required(),

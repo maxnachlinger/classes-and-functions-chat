@@ -4,9 +4,9 @@ const joi = require('joi')
 const Task = require('data.task')
 const request = require('request')
 const futurize = require('futurize').futurize(Task)
-const pointfreeFantasy = require('pointfree-fantasy');
+const pointfreeFantasy = require('pointfree-fantasy')
 
-const traverse = pointfreeFantasy.traverse;
+const traverse = pointfreeFantasy.traverse
 const validateT = futurize(joi.validate)
 const requestT = futurize(request)
 
@@ -48,7 +48,7 @@ const transformResults = (results) => {
 module.exports.request = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)
   .map((options) => prepareRequestParams(options))
   .chain((requestParams) => traverse(requestT, Task.of, [requestParams, requestParams, requestParams]))
-  .map((results) => transformResults(results));
+  .map((results) => transformResults(results))
 
 // traverse = map + sequence
 // [value, value, value].map(requestT) // [Task, Task, Task] - you know map :)

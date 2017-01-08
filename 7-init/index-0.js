@@ -1,11 +1,8 @@
 'use strict'
 const run = require('../_etc/run')
+const serviceConfig = require('../_etc/service-config')
 const requestWrapper = require('./init-0')
 
-const serviceConfig = {
-  url: 'http://localhost:9000',
-  accessKey: '1234567890'
-}
 requestWrapper.init(serviceConfig)
 
 run(() => {

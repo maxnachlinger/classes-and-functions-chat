@@ -4,15 +4,11 @@ const joi = require('joi')
 const Task = require('data.task')
 const futurize = require('futurize').futurize(Task)
 const run = require('../_etc/run')
+const serviceConfig = require('../_etc/service-config')
 const requestThings = require('./request-things')
 const passThru = require('./pass-thru')
 
 const validateT = futurize(joi.validate)
-
-const serviceConfig = {
-  url: 'http://localhost:9000',
-  accessKey: '1234567890'
-}
 
 const responseSchema = joi.array().items(joi.object().keys({
   id: joi.number().integer().required(),
