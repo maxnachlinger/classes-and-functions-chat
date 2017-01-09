@@ -98,7 +98,7 @@ in ``ValidatedThingRequest``'s validation.
 
 ### Wait a moment
 Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
-inheriting is sadly quite common, and it lots of classes inherit from that base class, you can cause lots of bugs.
+inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
 There are other ways of structuring ``ThingRequest`` and ``ValidatedThingRequest`` to get around _some_ of these issues but
 that's not the point here.
