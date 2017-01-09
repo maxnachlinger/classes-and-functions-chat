@@ -2,6 +2,8 @@
 
 ### Installation
 ```shell
+git clone git@github.com:maxnachlinger/classes-and-functions-chat.git
+cd classes-and-functions-chat
 npm i
 ```
 
