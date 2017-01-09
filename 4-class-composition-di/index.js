@@ -12,8 +12,8 @@ const responseSchema = joi.array().items(joi.object().keys({
 })).required()
 
 const thingRequest = new ThingRequest(serviceConfig)
-const loggingThingRequest = new ValidatedThingRequest(responseSchema, thingRequest)
+const validatedThingRequest = new ValidatedThingRequest(responseSchema, thingRequest)
 
 run(
-  loggingThingRequest.request({type: 'cool', limit: 20})
+  validatedThingRequest.request({type: 'cool', limit: 20})
 )
