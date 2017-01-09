@@ -5,8 +5,14 @@
 npm i
 ```
 
-### Have a look in the /\d\\-pass.* directories
-Each directory is an approach to solving our silly problem. There's some info in the README in each directory and you can also run the ``index.js`` file in each directory as well. The best documentation is really the code, it's simple, have a look :)
+### Have a look in the directories
+Each directory is an approach to solving our silly problem, have a look at each README. The best documentation is really the code, it's simple, have a look :)
+
+### Run the examples
+```shell
+// you can run the index.js file in the directory
+node ./0-class/index.js
+```
 
 ### Overview
 
