@@ -5,7 +5,7 @@
 npm i
 ```
 
-### Have a look in the /pass* directories
+### Have a look in the /\d\-pass.* directories
 Each directory is an approach to solving our silly problem. There's some info in the README in each directory and you can also run the ``index.js`` file in each directory as well. The best documentation is really the code, it's simple, have a look :)
 
 ### Overview
