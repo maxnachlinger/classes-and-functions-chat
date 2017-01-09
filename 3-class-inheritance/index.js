@@ -1,6 +1,6 @@
 'use strict'
 const joi = require('joi')
-const run = require('../_etc/run')
+const run = require('../_etc/run')('3-class-inheritance')
 const serviceConfig = require('../_etc/service-config')
 const ValidatedThingRequest = require('./ValidatedThingRequest')
 
@@ -14,6 +14,6 @@ const serviceConfigLocal = Object.assign({}, serviceConfig, {
 
 const thingRequest = new ValidatedThingRequest(serviceConfigLocal)
 
-run(() => {
-  return thingRequest.request({type: 'cool', limit: 20})
-})
+run(
+  thingRequest.request({type: 'cool', limit: 20})
+)

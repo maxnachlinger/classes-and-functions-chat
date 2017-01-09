@@ -1,6 +1,6 @@
 'use strict'
 const joi = require('joi')
-const run = require('../_etc/run')
+const run = require('../_etc/run')('4-class-composition-di')
 const serviceConfig = require('../_etc/service-config')
 const ThingRequest = require('./ThingRequest')
 const ValidatedThingRequest = require('./ValidatedThingRequest')
@@ -14,6 +14,6 @@ const responseSchema = joi.array().items(joi.object().keys({
 const thingRequest = new ThingRequest(serviceConfig)
 const loggingThingRequest = new ValidatedThingRequest(responseSchema, thingRequest)
 
-run(() => {
-  return loggingThingRequest.request({type: 'cool', limit: 20})
-})
+run(
+  loggingThingRequest.request({type: 'cool', limit: 20})
+)

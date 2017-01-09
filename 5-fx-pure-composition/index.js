@@ -1,7 +1,7 @@
 'use strict'
 const _ = require('lodash')
 const joi = require('joi')
-const run = require('../_etc/run')
+const run = require('../_etc/run')('5-fx-pure-composition')
 const serviceConfig = require('../_etc/service-config')
 const requestThings = require('./request-things')
 const addValidation = require('./add-validation')
@@ -14,8 +14,8 @@ const responseSchema = joi.array().items(joi.object().keys({
 
 const request = _.partial(requestThings.request, serviceConfig)
 
-run(() => {
-  return addValidation(responseSchema)(
+run(
+  addValidation(responseSchema)(
     request({type: 'cool', limit: 20})
   )
-})
+)

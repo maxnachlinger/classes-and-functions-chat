@@ -1,10 +1,10 @@
 'use strict'
-const run = require('../_etc/run')
+const run = require('../_etc/run')('7-init index-1')
 const serviceConfig = require('../_etc/service-config')
 const requestWrapper = require('./init-1')
 
 requestWrapper.init(serviceConfig)
 
-run(() => {
-  return requestWrapper.request({type: 'cool', limit: 20})
-})
+run(
+  requestWrapper.request({type: 'cool', limit: 20})
+)

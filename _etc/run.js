@@ -37,17 +37,17 @@ const start = (port) => new Promise((resolve) => {
   return server.listen(port || 9000, () => resolve(stopServer))
 })
 
-module.exports = (fx) => {
+module.exports = (tag) => (promise) => {
   let serverStopFn
 
   return start()
     .then((stopFn) => {
       serverStopFn = stopFn
-      return fx()
+      return promise
     })
     .then((results) => {
       results = results || []
-      console.log(`results: ${results.length} items, first few results:`, results.slice(0, 3))
+      console.log(`${tag} results: ${results.length} items, first few results:`, results.slice(0, 3))
       serverStopFn()
       process.exit(0)
     })

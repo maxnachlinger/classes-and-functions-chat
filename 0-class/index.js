@@ -1,10 +1,10 @@
 'use strict'
-const run = require('../_etc/run')
+const run = require('../_etc/run')('0-class')
 const ThingRequest = require('./ThingRequest')
 const serviceConfig = require('../_etc/service-config')
 
 const thingRequest = new ThingRequest(serviceConfig)
 
-run(() => {
-  return thingRequest.request({type: 'cool', limit: 20})
-})
+run(
+  thingRequest.request({type: 'cool', limit: 20})
+)
