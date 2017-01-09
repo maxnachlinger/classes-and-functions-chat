@@ -182,7 +182,7 @@ const _ = require('lodash')
 // (type) => {}
 const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-access-key')
 ```
-This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (arity == number of argumentS BTW) can be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry without using ``Function.length``, please let me know :)
+This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (``arity == number of arguments``) can be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry in Javascript without using ``Function.length``, please let me know :)
 
 One thing I find helpful when creating new functions is to think of the arguments you're going to have values for right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
 ```javascript
