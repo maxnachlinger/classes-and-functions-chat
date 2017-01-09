@@ -39,7 +39,7 @@ const start = (port) => new Promise((resolve) => {
 
 module.exports = (tag) => (promise) => {
   let serverStopFn
-  const amtResultsToShow = 5;
+  const amtResultsToShow = 5
 
   return start()
     .then((stopFn) => {
