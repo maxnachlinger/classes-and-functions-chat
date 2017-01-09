@@ -7,7 +7,7 @@ npm i
 
 ### Run the examples
 ```shell
-// you can run the index.js file in each directory
+# you can run the index.js file in each directory
 node ./0-class/index.js
 ```
 
