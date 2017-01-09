@@ -5,9 +5,6 @@
 npm i
 ```
 
-### Have a look in the directories
-Each directory is an approach to solving our silly problem, have a look at each README. The best documentation is really the code, it's simple, have a look :)
-
 ### Run the examples
 ```shell
 // you can run the index.js file in the directory
@@ -41,3 +38,6 @@ node ./0-class/index.js
 #### Silly Bonus
 
 * Pass 8: a simple way of running a few data.task monads in parallel.
+
+### Details
+[notes.md](./notes.md) contains detailed information regarding each of the solutions.
