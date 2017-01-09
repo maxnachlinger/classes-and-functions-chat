@@ -14,7 +14,8 @@ In case you've no idea what a Pure function is:
 
 A fancy phrase which means a function that:
 * given the same input will always return the same output
-* produces no side effects, which means it cannot alter external state
+* produces no side effects - a side effect is any application state change that is observable outside the called 
+function other than its return value.
 * gets all its state from its arguments.
 
 Why should I care about all this Pure Function nonsense anyway?
@@ -23,4 +24,3 @@ Why should I care about all this Pure Function nonsense anyway?
 * They are super easy to test
 * They (can be) simple to reason about and maintain.
 * You can run N of them at once without issue (less of a concern in JS)
-
