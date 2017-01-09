@@ -43,6 +43,7 @@ const prepareRequestParams = (options) => {
 
 const transformResults = (results) => {
   return results.reduce((acc, a) => acc.concat(a.body || []), [])
+    .sort((a, b) => a.id - b.id) // sort by id, since, well, for no reason in particular :)
 }
 
 module.exports.request = (serviceConfig, requestOptions) => prepareParams(serviceConfig, requestOptions)

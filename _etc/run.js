@@ -39,6 +39,7 @@ const start = (port) => new Promise((resolve) => {
 
 module.exports = (tag) => (promise) => {
   let serverStopFn
+  const amtResultsToShow = 5;
 
   return start()
     .then((stopFn) => {
@@ -47,7 +48,8 @@ module.exports = (tag) => (promise) => {
     })
     .then((results) => {
       results = results || []
-      console.log(`${tag} results: ${results.length} items, first few results:`, results.slice(0, 3))
+      console.log(`${tag} (${results.length}) results:\n`, results.slice(0, amtResultsToShow),
+        `\n+${(results.length || amtResultsToShow) - amtResultsToShow} additional results.`)
       serverStopFn()
       process.exit(0)
     })
