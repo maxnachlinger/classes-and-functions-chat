@@ -216,13 +216,11 @@ Nope. Assuming your config won't change while the app is running, you can partia
 the function :)
 
 ### 2 simple approaches:
-init-0.js
-Objects are passed by reference in javascript (yeah I know you knew that :).
+1. ``init-0.js`` - Objects are passed by reference in javascript (yeah I know you knew that :).
 So our exported object is a reference in the require.cache. ``init()`` simply adds our partially-applied method as a
 new request property to that object.
 
-init-1.js
-``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses that variable.
+2. ``init-1.js`` - ``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses that variable.
 
 ### Warning
 Passing around shared config means that any function which receives a reference to that shared config can now screw
