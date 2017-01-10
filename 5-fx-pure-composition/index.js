@@ -4,7 +4,7 @@ const joi = require('joi')
 const run = require('../_etc/run')('5-fx-pure-composition')
 const serviceConfig = require('../_etc/service-config')
 const requestThings = require('./request-things')
-const addValidation = require('./add-validation')
+const validateResult = require('./validate-result')
 
 const responseSchema = joi.array().items(joi.object().keys({
   id: joi.number().integer().required(),
@@ -13,9 +13,9 @@ const responseSchema = joi.array().items(joi.object().keys({
 })).required()
 
 const request = _.partial(requestThings.request, serviceConfig)
+const validateResultLocal = validateResult(responseSchema)
 
 run(
-  addValidation(responseSchema)(
-    request({type: 'cool', limit: 20})
-  )
+  request({type: 'cool', limit: 20})
+    .then((result) => validateResultLocal(result))
 )

@@ -158,11 +158,10 @@ For my part, what I love about javascript is that I can use much simpler approac
 
 ## 5
 ### Changes
-``pass-thru.js`` is extracted since it's a common requirement to call a function on a promise with the promise's result and pass that promise's result through to the next ``.then()`` handler.
+``validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
+result schema way before we have the result.
 
-``add-validation.js`` simply adds a validation check to the result of a promise, this is another bit of reusable code.
-
-Both functions are curried. In case you have no idea what currying is:
+In case you have no idea what currying is:
 
 ### Currying
 
@@ -186,8 +185,10 @@ This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (
 
 One thing I find helpful when creating new functions is to think of the arguments you're going to have values for right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
 ```javascript
-// instead of: validate(value, schema, [options], [callback])
-// how about: validate(schema, value, [options], [callback]) ?
+// instead of: 
+validate(value, schema, [options], [callback])
+// how about: 
+validate(schema, value, [options], [callback])
 ```
 Then we could do cool stuff like:
 ```javascript
