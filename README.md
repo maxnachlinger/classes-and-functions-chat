@@ -13,6 +13,9 @@ npm i
 node ./0-class/index.js
 ```
 
+### Notes on each solution
+See [notes.md](./notes.md).
+
 ### Overview
 
 #### Requirement: get a set of results from a REST API on the network
@@ -40,6 +43,3 @@ node ./0-class/index.js
 #### Silly Bonus
 
 * Pass 8: a simple way of running a few data.task monads in parallel.
-
-### Details
-[notes.md](./notes.md) contains detailed information regarding each of the solutions.
