@@ -242,10 +242,10 @@ Task.of('fun') // Task('fun')
   .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
 ```
 See that crazy ``Task(Task('FUN'))``? That's not what we want. ``map()`` isn't up to shenanigans, it's following it's 
-contract. The problem is, we don't want the new Task put back inside the old Task, we want an entirely new Task.
+contract. The problem is, we don't want the new Task put back inside the old Task, we want the new Task.
 
 This is what ``chain()`` does. ``.chain()`` takes a value and returns a new Task with that value inside it. So instead
-of nesting like ``.map()``, ``chain()`` flattens after transforming value into a new Task. ``chain()`` is sometimes 
+of nesting like ``.map()``, ``chain()`` transforms a value and places it in to a new Task. ``chain()`` is sometimes 
 called ``flatMap()``, which (hopefully now) is a pretty descriptive name :)
 
 OK, let's consider the ``Task`` analog to the above ``Promise`` example:
@@ -268,6 +268,9 @@ errors out to the caller, which is where those concerns belong. By letting the c
 we're able to return a ``Task`` from ``request()`` and compose it with other computations via ``.map()`` and 
 ``.chain()`` as per above.  Once we've composed everything we need, we can then call ``fork()`` to run the composed 
 computations.
+
+### BTW
+You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
 
 ## 7
 ### Changes
