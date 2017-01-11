@@ -252,13 +252,13 @@ OK, let's consider the ``Task`` analog to the above ``Promise`` example:
 ```javascript
 const addTaskYay = (value) => Task.of(`${value} YAY! :)`)
 
-const excitedTask = Task.of('fun') // new Task
+const excitedTask = Task.of('fun') // Task('fun')
   // value is taken out of the Task, upper-cased, and put back in to the Task
-  .map((value) => value.toUpperCase())
+  .map((value) => value.toUpperCase()) // Task('FUN')
   // value is taken out of the Task and placed inside a new Task
-  .chain((value) => addTaskYay(value))
+  .chain((value) => addTaskYay(value)) // Task('FUN YAY! :)')
   // execution starts, error and result handlers get simple values
-  .fork(console.error, console.log);
+  .fork(console.error, console.log); // error or FUN YAY! :)
 ```
 
 ### Why use data.Task?
