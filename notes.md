@@ -13,6 +13,12 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
+### Classes in Javascript are a bit _awkward_ 
+
+- To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method in one of our classes is invoked. 
+- and woe to he or she who forgets the `new` keyword when instantiating a class
+- If you want private things, you can only have them via closures
+
 ## 1
 ### Changes
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
