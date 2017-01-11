@@ -34,7 +34,7 @@ See [notes.md](./notes.md).
 
 - Pass 5: via function composition. More pure functions are extracted, currying is discussed.
 
-- Pass 6: via composition of data.task monads (from the folktale library). Benefits in terms of purity are discussed here as well as system start-up and operation being separate concerns. Yup, I said Monad :)
+- Pass 6: via composition of data.task monads (from the folktale library). map() and chain() are discussed here as well as Monads being a great way to compose computations. Yup, I said Monad :)
 
 #### How to use the require.cache and partial application to avoid passing shared config around
 
