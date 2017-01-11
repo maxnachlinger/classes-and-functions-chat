@@ -7,11 +7,11 @@ Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
 
-How a function gets it's state can be complicated. **Minimizing that complexity makes the function easier to think about,
-work on, and test.**
+How a function gets it's state can be complicated. **Minimizing that complexity makes the function easier to think 
+about, work on, and test.**
 
-In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from that
-function. We can improve this.
+In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
+that function. We can improve this.
 
 ## 1
 ### Changes
@@ -62,7 +62,8 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
 
 ## 2
 ### Changes:
-A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and ``transformResults()``.
+A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
+``transformResults()``.
 
 Promises are used to compose those functions along with ``requestP()``.
 
@@ -93,15 +94,15 @@ Why should I care about all this Pure Function nonsense anyway?
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
 
-Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported ``serviceConfigSchema``
-in ``ValidatedThingRequest``'s validation.
+Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
+``serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
 
 ### Wait a moment
 Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
-There are other ways of structuring ``ThingRequest`` and ``ValidatedThingRequest`` to get around _some_ of these issues but
-that's not the point here.
+There are other ways of structuring ``ThingRequest`` and ``ValidatedThingRequest`` to get around _some_ of these issues 
+but that's not the point here.
 
 The point is that **your requirements will change**, and when they do you'll not only have to change the functionality
 itself, but you'll also have to contend with a whole set of classes meant to describe those requirements as a world
@@ -135,7 +136,8 @@ Notice that:
 
 1. ``ValidatedThingRequest`` is now responsible for creating and destroying that instance of ``ThingRequest``.
 2. It's also harder to test ``ValidatedThingRequest`` since we can easily supply a mocked ``ThingRequest``.
-3. There are loads of other benefits (like loose coupling and programming to interfaces) but those are less relevant for Javascript IMHO.
+3. There are loads of other benefits (like loose coupling and programming to interfaces) but those are less relevant 
+for Javascript IMHO.
 
 Consider this code:
 ```javascript
@@ -149,7 +151,8 @@ class ValidatedThingRequest {
 ```
 We're _injecting_ ``ValidatedThingRequest``'s ``ThingRequest`` dependency. 
 
-Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` isn't responsible for managing ``ThingRequest``. It can simply use the instance passed in.
+Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` isn't responsible for managing 
+``ThingRequest``. It can simply use the instance passed in.
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
 Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
@@ -181,9 +184,13 @@ const _ = require('lodash')
 // (type) => {}
 const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-access-key')
 ```
-This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (``arity == number of arguments``) can be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry in Javascript without using ``Function.length``, please let me know :)
+This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (``arity == number of arguments``) can 
+be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry in Javascript 
+without using ``Function.length``, please let me know :)
 
-One thing I find helpful when creating new functions is to think of the arguments you're going to have values for right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
+One thing I find helpful when creating new functions is to think of the arguments you're going to have values for 
+right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` 
+validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
 ```javascript
 // instead of: 
 validate(value, schema, [options], [callback])
@@ -199,13 +206,68 @@ const validate = _.curry(joi.validate, {
 ## 6
 ### Changes
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
+Before I go on, you're probably wondering...
+
+### map, chain, what?
+Right, here's the familiar ``Promise`` API:
+```javascript
+const addPromiseYay = (value) => Promise.resolve(`${value} YAY! :)`)
+
+const excitedPromise = Promise.resolve('fun') // = resolved Promise, execution starts here
+  .then((value) => value.toUpperCase()) // = simple value
+  .then((value) => addPromiseYay(value)) // = resolved Promise
+  .then(console.log) // = simple value
+```
+The ``Promise`` API doesn't make a distinction between returning a value, or a resolved Promise, both are handled with 
+``.then()``.
+
+Now consider ``map()`` and ``chain()``. We know ``map()`` from Arrays:
+```javascript
+[0,1,2,3].map((i) => i + 1) // [1,2,3,4]
+```
+What's ``map()`` doing? Well, you could say it takes an item out of an array, transforms it, and places it back into an 
+array.  That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a Task, 
+transforms it, and places it back inside the Task e.g.:
+```javascript
+Task.of('fun') // start off with a Task('fun')
+  // map pulls out the value "fun" from the Task, upper-cases it, and then places it back into the Task.
+  .map((value) => value.toUpperCase()) // Task('FUN')
+```
+
+Now what if I want to pull a value out of a Task and use it in a new Task? Here's what ``.map()`` would get us:
+```javascript
+Task.of('fun') // Task('fun')
+  // map pulls out the value "fun" from the Task, creates a new Task with that value upper-cased, 
+  // and then places it back into the Task.
+  .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
+```
+See that crazy ``Task(Task('FUN'))``? That's not what we want. ``map()`` isn't up to shenanigans, it's following it's 
+contract. The problem is, we don't want the new Task put back inside the old Task, we want an entirely new Task.
+
+This is what ``chain()`` does. ``.chain()`` takes a value and returns a new Task with that value inside it. So instead
+of nesting like ``.map()``, ``chain()`` flattens after transforming value into a new Task. ``chain()`` is sometimes 
+called ``flatMap()``, which (hopefully now) is a pretty descriptive name :)
+
+OK, let's consider the ``Task`` analog to the above ``Promise`` example:
+```javascript
+const addTaskYay = (value) => Task.of(`${value} YAY! :)`)
+
+const excitedTask = Task.of('fun') // new Task
+  // value is taken out of the Task, upper-cased, and put back in to the Task
+  .map((value) => value.toUpperCase())
+  // value is taken out of the Task and placed inside a new Task
+  .chain((value) => addTaskYay(value))
+  // execution starts, error and result handlers get simple values
+  .fork(console.error, console.log);
+```
+
+### Why use data.Task?
 
 The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling
-the error out to the client, which is where those concerns belong. 
-
-In systems, how the system is setup and started is a separate concern from how it runs. This captures that. You can
-keep composing on to the Task via ``.map()`` and ``.chain()`` until you call ``.fork()`` which then executes the 
-Task(s) and allows the caller to handle the result/error.
+errors out to the caller, which is where those concerns belong. By letting the caller control when the ``Task`` runs, 
+we're able to return a ``Task`` from ``request()`` and compose it with other computations via ``.map()`` and 
+``.chain()`` as per above.  Once we've composed everything we need, we can then call ``fork()`` to run the composed 
+computations.
 
 ## 7
 ### Changes
@@ -236,3 +298,37 @@ Give each function a copy of the shared config :) That's why the shared variable
 ## 8
 ### Changes
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
+
+## Solutions not considered:
+### Factory function
+It would have been possible to define ``request-things::request`` like this (pseudo code):
+```javascript
+(serviceConfig) => {
+  validateServiceConfig(serviceConfig) // only option is to throw here
+  return (requestOptions) => {
+    // rest of the functions + request
+  }
+}
+```
+This design not only encourages devs to keep an instance of the returned function around in memory, but also the only benefit to this design is when making a request, ``joi`` validates an object that looks like this:
+```javascript
+{
+  type: 'cool', 
+  limit: 20
+}
+```
+instead of one which looks like this:
+```javascript
+{
+  serviceConfig: {
+    url: 'http://localhost:9000',
+    accessKey: '1234567890'
+  },
+  requestOptions: {
+    type: 'cool', 
+    limit: 20
+  }
+}
+```
+Not much of a benefit, well, unless ``joi`` is our bottleneck :)
+
