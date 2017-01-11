@@ -13,7 +13,7 @@ npm i
 node ./0-class/index.js
 ```
 
-### Notes on each solution
+### Notes on each solution (aka "The Presentation")
 See [notes.md](./notes.md).
 
 ### Overview
