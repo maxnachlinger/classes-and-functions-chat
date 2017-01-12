@@ -26,6 +26,9 @@ in one of our classes is invoked.
 ### Changes
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
+One benefit of this approach is that ``request()`` is open about its dependencies, which makes it easier to reason
+about.
+
 Some folks claim a benefit of classes is that you don't have to pass the state given to the constructor along to each
 instance method. The calling code in ``index.js`` shows that partial application is a reasonable way around that.
 
@@ -98,6 +101,9 @@ Why should I care about all this Pure Function nonsense anyway?
 * They (can be) simple to reason about and maintain.
 * You can run N of them at once without issue (less of a concern in JS)
 
+It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on state external to its input, namely 
+the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
+
 ## Requirement-change: get a set of results from a REST API on the network and validate those results
 
 ## 3 - Class inheritance
@@ -167,8 +173,11 @@ Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` 
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
 Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
+One benefit of dependency injection is it makes a class' dependencies explicit, which makes the class easier to 
+reason about.
 
-For my part, what I love about javascript is that I can use much simpler approaches to get decoupled testable code :)
+
+For my part, I think there are much simpler approaches to achieving decoupled, testable, code :)
 
 ## 5 - More pure function composition
 ### Changes
@@ -276,9 +285,11 @@ const excitedTask = Task.of('fun') // Task('fun')
 
 The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling
 errors out to the caller, which is where those concerns belong. By letting the caller control when the ``Task`` runs, 
-we're able to return a ``Task`` from ``request()`` and compose it with other computations via ``.map()`` and 
-``.chain()`` as per above.  Once we've composed everything we need, we can then call ``fork()`` to run the composed 
-computations.
+the caller can take that ``Task`` and compose it with other computations via ``.map()`` and  ``.chain()`` as per above. 
+Once the caller has composed everything it needs, it can call ``fork()`` to run the composed computations.
+
+Remember that previously ``request()`` wasn't pure, its output varied based on state external to its input, namely the 
+network. Now ``requestP()`` is pure and easily composable with other functions.
 
 ### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
@@ -289,15 +300,16 @@ So if we don't use the class approach to requesting things, do we still have to 
 request each time?
 
 Nope. Assuming your config won't change while the app is running, you can partially apply the ``serviceConfig ``to
-``request()`` and add that to the ``require.cache``. If you config is dynamic, you really should pass it each time you invoke
-the function :)
+``request()`` and add that to the ``require.cache``. If you config is dynamic, you really should pass it each time 
+you invoke the function :)
 
 ### 2 simple approaches:
 1. ``init-0.js`` - Objects are passed by reference in javascript (yeah I know you knew that :).
 So our exported object is a reference in the require.cache. ``init()`` simply adds our partially-applied method as a
 new request property to that object.
 
-2. ``init-1.js`` - ``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses that variable.
+2. ``init-1.js`` - ``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses 
+that variable.
 
 ### Warning
 Passing around shared config means that any function which receives a reference to that shared config can now screw
@@ -307,7 +319,8 @@ So, we need to share this config, but we don't want to give every function which
 to screw it up.
 
 ### Solution
-Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied in the examples.
+Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied 
+in the examples.
 
 ## 8 (fun?) bonus
 ### Changes
@@ -324,7 +337,8 @@ It would have been possible to define ``request-things::request`` like this (pse
   }
 }
 ```
-This design not only encourages devs to keep an instance of the returned function around in memory, but also the only benefit to this design is when making a request, ``joi`` validates an object that looks like this:
+This design not only encourages devs to keep an instance of the returned function around in memory, but also the only 
+benefit to this design is when making a request, ``joi`` validates an object that looks like this:
 ```javascript
 {
   type: 'cool', 
