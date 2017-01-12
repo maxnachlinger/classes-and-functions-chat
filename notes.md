@@ -1,6 +1,6 @@
 ## Requirement: get a set of results from a REST API on the network
 
-## 0 Class
+## 0 - Class
 ### Changes 
 A ``ThingRequest`` class.
 
@@ -22,7 +22,7 @@ in one of our classes is invoked.
 - and woe to he or she who forgets the `new` keyword when instantiating a class
 - If you want private things, you can only have them via closures
 
-## 1 Function
+## 1 - Function
 ### Changes
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
@@ -72,7 +72,7 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
   .catch((err) => console.error(err.stack || err))
 ```
 
-## 2 Extract and compose pure functions
+## 2 - Extract and compose pure functions
 ### Changes:
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
 ``transformResults()``.
@@ -322,7 +322,7 @@ to screw it up.
 Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied 
 in the examples.
 
-## 8 (fun?) bonus
+## 8 - (fun?) bonus
 ### Changes
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
