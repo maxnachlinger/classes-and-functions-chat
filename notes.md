@@ -223,7 +223,7 @@ const validate = _.curry(joi.validate, {
   name: joi.string().required()
 }); // --> (value, [options], [callback]) => {}
 ```
-## 6 - Awesome composition via ``data.task``
+## 6 - Awesome composition via the ``data.task`` Monad
 ### Changes
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 Before I go on, you're probably wondering...
@@ -261,7 +261,7 @@ Task.of('fun') // Task('fun')
   // and then places it back into the Task.
   .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
 ```
-See that crazy ``Task(Task('FUN'))``? That's not what we want. ``map()`` isn't up to shenanigans, it's following it's 
+See that crazy ``Task(Task('FUN'))``? That's not what we want! ``map()`` isn't up to shenanigans, it's following it's 
 contract. The problem is, we don't want the new Task put back inside the old Task, we want the new Task.
 
 This is what ``chain()`` does. ``.chain()`` takes a value and returns a new Task with that value inside it. So instead
