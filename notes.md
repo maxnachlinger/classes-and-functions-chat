@@ -1,4 +1,6 @@
-## 0
+## Requirement: get a set of results from a REST API on the network
+
+## 0 Class
 ### Changes 
 A ``ThingRequest`` class.
 
@@ -15,11 +17,12 @@ that function. We can improve this.
 
 ### Classes in Javascript are a bit _awkward_ 
 
-- To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method in one of our classes is invoked. 
+- To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method 
+in one of our classes is invoked. 
 - and woe to he or she who forgets the `new` keyword when instantiating a class
 - If you want private things, you can only have them via closures
 
-## 1
+## 1 Function
 ### Changes
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
@@ -66,7 +69,7 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
   .catch((err) => console.error(err.stack || err))
 ```
 
-## 2
+## 2 Extract and compose pure functions
 ### Changes:
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
 ``transformResults()``.
@@ -95,7 +98,9 @@ Why should I care about all this Pure Function nonsense anyway?
 * They (can be) simple to reason about and maintain.
 * You can run N of them at once without issue (less of a concern in JS)
 
-## 3
+## Requirement-change: get a set of results from a REST API on the network and validate those results
+
+## 3 - Class inheritance
 ### Changes
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
@@ -118,7 +123,7 @@ When using inheritance the issue gets even more complex as child classes gain ac
 of their parent classes. As systems structured in this way grow, these dependencies are rarely obvious and the
 side-effects to altering state are even less obvious.
 
-## 4
+## 4 - Class composition through Dependency Injection
 ### Changes
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
 ``ThingRequest`` injected into it.
@@ -165,7 +170,7 @@ Patterns and techniques like dependency injection. There are book-shelves filled
 
 For my part, what I love about javascript is that I can use much simpler approaches to get decoupled testable code :)
 
-## 5
+## 5 - More pure function composition
 ### Changes
 ``validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
 result schema way before we have the result.
@@ -209,7 +214,7 @@ const validate = _.curry(joi.validate, {
   name: joi.string().required()
 }); // --> (value, [options], [callback]) => {}
 ```
-## 6
+## 6 - Awesome composition via ``data.task``
 ### Changes
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 Before I go on, you're probably wondering...
@@ -278,7 +283,7 @@ computations.
 ### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
 
-## 7
+## 7 - Some ideas on how to initialize things
 ### Changes
 So if we don't use the class approach to requesting things, do we still have to pass the ``serviceConfig`` parameter to
 request each time?
@@ -304,7 +309,7 @@ to screw it up.
 ### Solution
 Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied in the examples.
 
-## 8
+## 8 (fun?) bonus
 ### Changes
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
