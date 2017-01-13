@@ -289,7 +289,7 @@ the caller can take that ``Task`` and compose it with other computations via ``.
 Once the caller has composed everything it needs, it can call ``fork()`` to run the composed computations.
 
 Remember that previously ``request()`` wasn't pure, its output varied based on state external to its input, namely the 
-network. Now ``requestP()`` is pure and easily composable with other functions.
+network. Now ``request()`` is pure and easily composable with other functions.
 
 ### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
