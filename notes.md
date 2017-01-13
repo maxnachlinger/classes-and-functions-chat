@@ -262,7 +262,7 @@ Task.of('fun') // Task('fun')
   .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
 ```
 See that crazy ``Task(Task('FUN'))``? That's not what we want! ``map()`` isn't up to shenanigans, it's following it's 
-contract. The problem is, we don't want the new ``Task`` put back inside the old ``Task``, we want the new ``Task``.
+contract. The problem is, we don't want the new ``Task`` put back inside a ``Task``, we want a new ``Task``.
 
 This is what ``chain()`` does. ``.chain()`` takes a value and returns a new ``Task`` with that value inside it. So instead
 of nesting like ``.map()``, ``chain()`` transforms a value and places it in to a new ``Task``. ``chain()`` is sometimes 
