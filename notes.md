@@ -246,15 +246,15 @@ Now consider ``map()`` and ``chain()``. We know ``map()`` from Arrays:
 [0,1,2,3].map((i) => i + 1) // [1,2,3,4]
 ```
 What's ``map()`` doing? Well, you could say it takes an item out of an array, transforms it, and places it back into an 
-array.  That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a Task, 
-transforms it, and places it back inside the Task e.g.:
+array.  That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a ``Task``, 
+transforms it, and places it back inside the ``Task`` e.g.:
 ```javascript
 Task.of('fun') // start off with a Task('fun')
   // map pulls out the value "fun" from the Task, upper-cases it, and then places it back into the Task.
   .map((value) => value.toUpperCase()) // Task('FUN')
 ```
 
-Now what if I want to pull a value out of a Task and use it in a new Task? Here's what ``.map()`` would get us:
+Now what if I want to pull a value out of a ``Task`` and use it in a new ``Task``? Here's what ``.map()`` would get us:
 ```javascript
 Task.of('fun') // Task('fun')
   // map pulls out the value "fun" from the Task, creates a new Task with that value upper-cased, 
@@ -262,10 +262,10 @@ Task.of('fun') // Task('fun')
   .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
 ```
 See that crazy ``Task(Task('FUN'))``? That's not what we want! ``map()`` isn't up to shenanigans, it's following it's 
-contract. The problem is, we don't want the new Task put back inside the old Task, we want the new Task.
+contract. The problem is, we don't want the new ``Task`` put back inside the old ``Task``, we want the new ``Task``.
 
-This is what ``chain()`` does. ``.chain()`` takes a value and returns a new Task with that value inside it. So instead
-of nesting like ``.map()``, ``chain()`` transforms a value and places it in to a new Task. ``chain()`` is sometimes 
+This is what ``chain()`` does. ``.chain()`` takes a value and returns a new ``Task`` with that value inside it. So instead
+of nesting like ``.map()``, ``chain()`` transforms a value and places it in to a new ``Task``. ``chain()`` is sometimes 
 called ``flatMap()``, which (hopefully now) is a pretty descriptive name :)
 
 OK, let's consider the ``Task`` analog to the above ``Promise`` example:
