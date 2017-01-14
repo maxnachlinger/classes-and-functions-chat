@@ -16,7 +16,7 @@ node ./0-class/index.js
 ### Notes (aka "The Presentation")
 
 ### Requirement: get a set of results from a REST API on the network
-
+---
 ### 0 - Class
 [Relevant code](./0-class)
 #### Changes 
@@ -40,6 +40,7 @@ in one of our classes is invoked.
 - and woe to he or she who forgets the `new` keyword when instantiating a class
 - If you want private things, you can only have them via closures
 
+---
 ### 1 - Function
 [Relevant code](./1-fx)
 #### Changes
@@ -91,6 +92,7 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
   .catch((err) => console.error(err.stack || err))
 ```
 
+---
 ### 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
 #### Changes:
@@ -126,6 +128,7 @@ the network :) We can make ``requestP()`` pure, and we'll explore what that look
 
 ### Requirement-change: get a set of results from a REST API on the network and validate those results
 
+---
 ### 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
 #### Changes
@@ -150,6 +153,7 @@ When using inheritance the issue gets even more complex as child classes gain ac
 of their parent classes. As systems structured in this way grow, these dependencies are rarely obvious and the
 side-effects to altering state are even less obvious.
 
+---
 ### 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
 #### Changes
@@ -201,6 +205,7 @@ reason about.
 
 For my part, I think there are much simpler approaches to achieving decoupled, testable, code :)
 
+---
 ### 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
 #### Changes
@@ -246,6 +251,8 @@ const validate = _.curry(joi.validate, {
   name: joi.string().required()
 }); // --> (value, [options], [callback]) => {}
 ```
+
+---
 ### 6 - Awesome composition via the ``data.task`` Monad
 [Relevant code](./6-fx-data.task)
 #### Changes
@@ -318,6 +325,7 @@ network. Now ``request()`` is pure and easily composable with other functions.
 #### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
 
+---
 ### 7 - Some ideas on how to initialize things
 [Relevant code](./7-init)
 #### Changes
@@ -347,11 +355,13 @@ to screw it up.
 Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied 
 in the examples.
 
+---
 ### 8 - (fun?) bonus
 [Relevant code](./8-fx-data.task-parallel-calls)
 #### Changes
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
+---
 ### Solutions not considered:
 #### Factory function
 It would have been possible to define ``request-things::request`` like this (pseudo code):
@@ -385,4 +395,3 @@ instead of one which looks like this:
 }
 ```
 Not much of a benefit, well, unless ``joi`` is our bottleneck :)
-
