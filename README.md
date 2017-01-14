@@ -13,16 +13,16 @@ npm i
 node ./0-class/index.js
 ```
 
-## Notes (aka "The Presentation")
+### Notes (aka "The Presentation")
 
-## Requirement: get a set of results from a REST API on the network
+### Requirement: get a set of results from a REST API on the network
 
-## 0 - Class
+### 0 - Class
 [Relevant code](./0-class)
-### Changes 
+#### Changes 
 A ``ThingRequest`` class.
 
-### Question:
+#### Question:
 Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
@@ -33,16 +33,16 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
-### Classes in Javascript are a bit _awkward_ 
+#### Classes in Javascript are a bit _awkward_ 
 
 - To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method 
 in one of our classes is invoked. 
 - and woe to he or she who forgets the `new` keyword when instantiating a class
 - If you want private things, you can only have them via closures
 
-## 1 - Function
+### 1 - Function
 [Relevant code](./1-fx)
-### Changes
+#### Changes
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
 One benefit of this approach is that ``request()`` is open about its dependencies, which makes it easier to reason
@@ -53,7 +53,7 @@ instance method. The calling code in ``index.js`` shows that partial application
 
 In case you don't know what partial application is:
 
-### Partial Application:
+#### Partial Application:
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -71,7 +71,7 @@ const _ = require('lodash')
 const getStuffLocal2 = _.partial(getStuff, 'http://www.example.com', 'secret-access-key')
 ```
 
-### Question:
+#### Question:
 From the point of view of the calling code, which is more maintainable? A class you instantiate with an arg and
 an instance method you call with another arg,
 
@@ -91,22 +91,22 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
   .catch((err) => console.error(err.stack || err))
 ```
 
-## 2 - Extract and compose pure functions
+### 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
-### Changes:
+#### Changes:
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
 ``transformResults()``.
 
 Promises are used to compose those functions along with ``requestP()``.
 
-### Benefits of this approach:
+#### Benefits of this approach:
 - Each function gets just enough state to do it's job
 - Each function has one responsibility
 - + all the benefits of pure functions.
 
 In case you've no idea what a Pure function is:
 
-### Pure Function:
+#### Pure Function:
 
 A fancy phrase which means a function that:
 * given the same input will always return the same output
@@ -124,18 +124,18 @@ Why should I care about all this Pure Function nonsense anyway?
 It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on state external to its input, namely 
 the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
 
-## Requirement-change: get a set of results from a REST API on the network and validate those results
+### Requirement-change: get a set of results from a REST API on the network and validate those results
 
-## 3 - Class inheritance
+### 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
-### Changes
+#### Changes
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
 
 Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
 ``serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
 
-### Wait a moment
+#### Wait a moment
 Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
@@ -150,13 +150,13 @@ When using inheritance the issue gets even more complex as child classes gain ac
 of their parent classes. As systems structured in this way grow, these dependencies are rarely obvious and the
 side-effects to altering state are even less obvious.
 
-## 4 - Class composition through Dependency Injection
+### 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
-### Changes
+#### Changes
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
 ``ThingRequest`` injected into it.
 
-### Dependency Injection
+#### Dependency Injection
 
 A fancy term for passing a class it's dependencies.
 
@@ -201,15 +201,15 @@ reason about.
 
 For my part, I think there are much simpler approaches to achieving decoupled, testable, code :)
 
-## 5 - More pure function composition
+### 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
-### Changes
+#### Changes
 ``validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
 result schema way before we have the result.
 
 In case you have no idea what currying is:
 
-### Currying
+#### Currying
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -246,13 +246,13 @@ const validate = _.curry(joi.validate, {
   name: joi.string().required()
 }); // --> (value, [options], [callback]) => {}
 ```
-## 6 - Awesome composition via the ``data.task`` Monad
+### 6 - Awesome composition via the ``data.task`` Monad
 [Relevant code](./6-fx-data.task)
-### Changes
+#### Changes
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 Before I go on, you're probably wondering...
 
-### map, chain, what?
+#### map, chain, what?
 Right, here's the familiar ``Promise`` API:
 ```javascript
 const addPromiseYay = (value) => Promise.resolve(`${value} YAY! :)`)
@@ -305,7 +305,7 @@ const excitedTask = Task.of('fun') // Task('fun')
   .fork(console.error, console.log); // error or FUN YAY! :)
 ```
 
-### Why use data.Task?
+#### Why use data.Task?
 
 The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling
 errors out to the caller, which is where those concerns belong. By letting the caller control when the ``Task`` runs, 
@@ -315,12 +315,12 @@ Once the caller has composed everything it needs, it can call ``fork()`` to run 
 Remember that previously ``request()`` wasn't pure, its output varied based on state external to its input, namely the 
 network. Now ``request()`` is pure and easily composable with other functions.
 
-### BTW
+#### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
 
-## 7 - Some ideas on how to initialize things
+### 7 - Some ideas on how to initialize things
 [Relevant code](./7-init)
-### Changes
+#### Changes
 So if we don't use the class approach to requesting things, do we still have to pass the ``serviceConfig`` parameter to
 request each time?
 
@@ -328,7 +328,7 @@ Nope. Assuming your config won't change while the app is running, you can partia
 ``request()`` and add that to the ``require.cache``. If you config is dynamic, you really should pass it each time 
 you invoke the function :)
 
-### 2 simple approaches:
+#### 2 simple approaches:
 1. ``init-0.js`` - Objects are passed by reference in javascript (yeah I know you knew that :).
 So our exported object is a reference in the require.cache. ``init()`` simply adds our partially-applied method as a
 new request property to that object.
@@ -336,24 +336,24 @@ new request property to that object.
 2. ``init-1.js`` - ``init()`` sets a variable in the module, ``request()`` is exported as a normal function but uses 
 that variable.
 
-### Warning
+#### Warning
 Passing around shared config means that any function which receives a reference to that shared config can now screw
 with it. These kinds of side-effects are especially hard to track down.
 
 So, we need to share this config, but we don't want to give every function which receives a reference to it the power
 to screw it up.
 
-### Solution
+#### Solution
 Give each function a copy of the shared config :) That's why the shared variable reference is ``deep-copy``ied 
 in the examples.
 
-## 8 - (fun?) bonus
+### 8 - (fun?) bonus
 [Relevant code](./8-fx-data.task-parallel-calls)
-### Changes
+#### Changes
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
-## Solutions not considered:
-### Factory function
+### Solutions not considered:
+#### Factory function
 It would have been possible to define ``request-things::request`` like this (pseudo code):
 ```javascript
 (serviceConfig) => {
