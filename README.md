@@ -315,13 +315,31 @@ const excitedTask = Task.of('fun') // Task('fun')
 
 #### Why use data.Task?
 
-The benefit here is that request-things is now totally pure and we push control for running ``request()`` and handling
-errors out to the caller, which is where those concerns belong. By letting the caller control when the ``Task`` runs, 
-the caller can take that ``Task`` and compose it with other computations via ``.map()`` and  ``.chain()`` as per above. 
-Once the caller has composed everything it needs, it can call ``fork()`` to run the composed computations.
-
 Remember that previously ``request()`` wasn't pure, its output varied based on state external to its input, namely the 
-network. Now ``request()`` is pure and easily composable with other functions.
+network. Now ``request()`` is pure and easily composable with other functions. We've also pushed control for running 
+``request()`` and handling errors out to the caller, which is where those concerns belong. By letting the caller 
+control when the ``Task`` runs, the caller can take that ``Task`` and compose it with other computations via 
+``.map()`` and  ``.chain()`` as per above. Once the caller has composed everything it needs, it can call ``fork()`` 
+to run the composed computations.
+
+It's worth noting that Promises run as soon as they're defined 
+([per the ECMAScript spec](https://tc39.github.io/ecma262/#sec-promise-constructor)). This code:
+```javascript
+console.log('Before promise is defined')
+const promise = new Promise((res, rej) => {
+  console.log('Promise is executing')
+  return res()
+})
+console.log('After promise is defined')
+```
+Prints:
+```
+Before promise is defined
+Promise is executing
+After promise is defined
+```
+
+### 
 
 #### BTW
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
