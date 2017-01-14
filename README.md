@@ -126,6 +126,7 @@ Why should I care about all this Pure Function nonsense anyway?
 It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on state external to its input, namely 
 the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
 
+---
 ### Requirement-change: get a set of results from a REST API on the network and validate those results
 
 ---
