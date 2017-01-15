@@ -95,7 +95,7 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
 ---
 ### 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
-:
+
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
 ``transformResults()``.
 
@@ -414,3 +414,14 @@ instead of one which looks like this:
 }
 ```
 Not much of a benefit, well, unless ``joi`` is our bottleneck :)
+
+---
+### Hey watch these videos, they're awesome!
+
+- [Professor Frisby Introduces Composable Functional JavaScript](
+https://egghead.io/courses/professor-frisby-introduces-function-composition)
+
+- Classroom Coding with Prof. Frisby
+ - [Part 1](https://www.youtube.com/watch?v=h_tkIpwbsxY&t=3s)
+ - [Part 2](https://www.youtube.com/watch?v=oZ6C9h49bu8&t=7s)
+ - [Part 3](https://www.youtube.com/watch?v=mMCgJA8HScA&t=609s)
