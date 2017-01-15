@@ -19,7 +19,7 @@ node ./0-class/index.js
 ---
 ### 0 - Class
 [Relevant code](./0-class)
-#### Changes 
+
 A ``ThingRequest`` class.
 
 #### Question:
@@ -33,7 +33,7 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
-#### Classes in Javascript are a bit _awkward_ 
+#### Compared to languages like C# and JAVA, classes in Javascript are a bit _awkward_ 
 
 - To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method 
 in one of our classes is invoked. 
@@ -43,7 +43,7 @@ in one of our classes is invoked.
 ---
 ### 1 - Function
 [Relevant code](./1-fx)
-#### Changes
+
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
 
 One benefit of this approach is that ``request()`` is open about its dependencies, which makes it easier to reason
@@ -95,7 +95,7 @@ request(serviceConfig, {type: 'squirrels', limit: 20})
 ---
 ### 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
-#### Changes:
+:
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
 ``transformResults()``.
 
@@ -132,7 +132,7 @@ the network :) We can make ``requestP()`` pure, and we'll explore what that look
 ---
 ### 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
-#### Changes
+
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
 
@@ -157,7 +157,7 @@ side-effects to altering state are even less obvious.
 ---
 ### 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
-#### Changes
+
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
 ``ThingRequest`` injected into it.
 
@@ -209,7 +209,7 @@ For my part, I think there are much simpler approaches to achieving decoupled, t
 ---
 ### 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
-#### Changes
+
 ``validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
 result schema way before we have the result.
 
@@ -256,7 +256,7 @@ const validate = _.curry(joi.validate, {
 ---
 ### 6 - Awesome composition via the ``data.task`` Monad
 [Relevant code](./6-fx-data.task)
-#### Changes
+
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 Before I go on, you're probably wondering...
 
@@ -347,7 +347,7 @@ You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.t
 ---
 ### 7 - Some ideas on how to initialize things
 [Relevant code](./7-init)
-#### Changes
+
 So if we don't use the class approach to requesting things, do we still have to pass the ``serviceConfig`` parameter to
 request each time?
 
@@ -377,7 +377,7 @@ in the examples.
 ---
 ### 8 - (fun?) bonus
 [Relevant code](./8-fx-data.task-parallel-calls)
-#### Changes
+
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
 ---
