@@ -18,6 +18,7 @@ const validateLocal = validateResult(responseSchema)
 const task = request({type: 'cool', limit: 20})
   .chain((result) => validateLocal(result))
 
+// transforming this into a promise to show how .fork() works
 run(
   new Promise((resolve, reject) => task.fork(reject, resolve))
 )

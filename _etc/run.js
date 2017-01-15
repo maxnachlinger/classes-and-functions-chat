@@ -1,8 +1,8 @@
 'use strict'
 const urlLib = require('url')
 const http = require('http')
-const Promise = require('bluebird')
 const _ = require('lodash')
+const Task = require('data.task')
 
 const getThings = (req, res) => {
   res.writeHead(200, {'Content-Type': 'application/json'})
@@ -12,7 +12,6 @@ const getThings = (req, res) => {
   const limit = parseInt(_.get(url, 'query.limit', '10'), 10)
 
   const things = Array.from(new Array(limit), (x, i) => ({id: i, name: `Thing ${i}`, type}))
-
   res.end(JSON.stringify(things))
 }
 
@@ -27,35 +26,40 @@ const routes = {
 
 const onRequest = (req, res) => {
   const pathname = urlLib.parse(req.url).pathname
-  const route = routes[pathname] || notFound
-  return route(req, res)
+  const handler = routes[pathname] || notFound
+  return handler(req, res)
 }
 
-const start = (port) => new Promise((resolve) => {
+const start = (port) => new Task((rej, res) => {
   const server = http.createServer(onRequest)
-  const stopServer = () => Promise.promisify(server.close, {context: server})
-  return server.listen(port || 9000, () => resolve(stopServer))
+  return server.listen(port || 9000, () => res(server))
 })
 
-module.exports = (tag) => (promise) => {
-  let serverStopFn
+const displayResults = (tag) => (results) => {
   const amtResultsToShow = 5
+  results = results || []
+  console.log(`${tag} (${results.length}) results:\n`, results.slice(0, amtResultsToShow),
+    `\n+${(results.length || amtResultsToShow) - amtResultsToShow} additional results.`)
+  return
+}
+
+module.exports = (tag) => (request) => {
+  const display = displayResults(tag)
+
+  const localRequest = request.then ? new Task((rej, res) => request.then(res).catch(rej)) : request;
 
   return start()
-    .then((stopFn) => {
-      serverStopFn = stopFn
-      return promise
+    .chain((server) => {
+      const stop = () => new Task((rej, res) => server.close(res))
+      return localRequest.chain((results) => stop()
+        .map(() => results)
+      )
     })
-    .then((results) => {
-      results = results || []
-      console.log(`${tag} (${results.length}) results:\n`, results.slice(0, amtResultsToShow),
-        `\n+${(results.length || amtResultsToShow) - amtResultsToShow} additional results.`)
-      serverStopFn()
-      process.exit(0)
-    })
-    .catch((err) => {
+    .fork((err) => {
       console.error(err.stack || err)
-      serverStopFn()
       process.exit(1)
+    }, (results) => {
+      display(results)
+      process.exit(0)
     })
 }

@@ -18,6 +18,4 @@ const validateLocal = validateResult(responseSchema)
 const task = request({type: 'cool', limit: 20})
   .chain((result) => validateLocal(result))
 
-run(
-  new Promise((resolve, reject) => task.fork(reject, resolve))
-)
+run(task)
