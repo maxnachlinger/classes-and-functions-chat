@@ -15,5 +15,5 @@ const serviceConfigLocal = Object.assign({}, serviceConfig, {
 const thingRequest = new ValidatedThingRequest(serviceConfigLocal)
 
 run(
-  thingRequest.request({type: 'cool', limit: 20})
+  thingRequest.request({type: 'cool', limit: 5})
 )

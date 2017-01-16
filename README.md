@@ -81,13 +81,13 @@ const instance = new ThingRequest(serviceConfig)
 
 // many lines of code later...
 
-instance.request({type: 'squirrels', limit: 20})
+instance.request({type: 'squirrels', limit: 5})
   .then((results) => console.log(results))
   .catch((err) => console.error(err.stack || err))
 ```
 or a method you call passing 2 args?
 ```javascript
-request(serviceConfig, {type: 'squirrels', limit: 20})
+request(serviceConfig, {type: 'squirrels', limit: 5})
   .then((results) => console.log(results))
   .catch((err) => console.error(err.stack || err))
 ```
@@ -397,7 +397,7 @@ benefit to this design is when making a request, ``joi`` validates an object tha
 ```javascript
 {
   type: 'cool', 
-  limit: 20
+  limit: 5
 }
 ```
 instead of one which looks like this:
@@ -409,7 +409,7 @@ instead of one which looks like this:
   },
   requestOptions: {
     type: 'cool', 
-    limit: 20
+    limit: 5
   }
 }
 ```

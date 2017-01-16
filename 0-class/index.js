@@ -6,5 +6,5 @@ const serviceConfig = require('../_etc/service-config')
 const thingRequest = new ThingRequest(serviceConfig)
 
 run(
-  thingRequest.request({type: 'cool', limit: 20})
+  thingRequest.request({type: 'cool', limit: 5})
 )

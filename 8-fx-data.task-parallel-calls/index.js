@@ -15,7 +15,7 @@ const responseSchema = joi.array().items(joi.object().keys({
 const request = _.partial(requestThings.request, serviceConfig)
 const validateLocal = validateResult(responseSchema)
 
-const task = request({type: 'cool', limit: 20})
+const task = request({type: 'cool', limit: 5})
   .chain((result) => validateLocal(result))
 
 run(task)

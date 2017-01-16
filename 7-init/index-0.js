@@ -6,5 +6,5 @@ const requestWrapper = require('./init-0')
 requestWrapper.init(serviceConfig)
 
 run(
-  requestWrapper.request({type: 'cool', limit: 20})
+  requestWrapper.request({type: 'cool', limit: 5})
 )

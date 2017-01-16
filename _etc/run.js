@@ -3,6 +3,7 @@ const urlLib = require('url')
 const http = require('http')
 const _ = require('lodash')
 const Task = require('data.task')
+const pino = require('pino')()
 
 const getThings = (req, res) => {
   res.writeHead(200, {'Content-Type': 'application/json'})
@@ -36,17 +37,15 @@ const start = (port) => new Task((rej, res) => {
 })
 
 const displayResults = (tag) => (results) => {
-  const amtResultsToShow = 5
   results = results || []
-  console.log(`${tag} (${results.length}) results:\n`, results.slice(0, amtResultsToShow),
-    `\n+${(results.length || amtResultsToShow) - amtResultsToShow} additional results.`)
+  pino.info({tag, amtResults: results.length, results})
   return
 }
 
 module.exports = (tag) => (request) => {
   const display = displayResults(tag)
 
-  const localRequest = request.then ? new Task((rej, res) => request.then(res).catch(rej)) : request;
+  const localRequest = request.then ? new Task((rej, res) => request.then(res).catch(rej)) : request
 
   return start()
     .chain((server) => {
@@ -56,7 +55,7 @@ module.exports = (tag) => (request) => {
       )
     })
     .fork((err) => {
-      console.error(err.stack || err)
+      pino.error(err.stack || err)
       process.exit(1)
     }, (results) => {
       display(results)

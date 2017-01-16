@@ -16,6 +16,6 @@ const request = _.partial(requestThings.request, serviceConfig)
 const validateResultLocal = validateResult(responseSchema)
 
 run(
-  request({type: 'cool', limit: 20})
+  request({type: 'cool', limit: 5})
     .then((result) => validateResultLocal(result))
 )

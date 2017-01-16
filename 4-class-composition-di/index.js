@@ -15,5 +15,5 @@ const thingRequest = new ThingRequest(serviceConfig)
 const validatedThingRequest = new ValidatedThingRequest(responseSchema, thingRequest)
 
 run(
-  validatedThingRequest.request({type: 'cool', limit: 20})
+  validatedThingRequest.request({type: 'cool', limit: 5})
 )

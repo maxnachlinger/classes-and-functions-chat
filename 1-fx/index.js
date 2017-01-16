@@ -7,5 +7,5 @@ const requestThings = require('./request-things')
 const request = _.partial(requestThings.request, serviceConfig)
 
 run(
-  request({type: 'cool', limit: 20})
+  request({type: 'cool', limit: 5})
 )
