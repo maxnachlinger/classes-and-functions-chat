@@ -50,8 +50,8 @@ module.exports = (tag) => (request) => {
 
   return start()
     .chain((server) => {
-      const stop = () => new Task((rej, res) => server.close(res))
-      return localRequest.chain((results) => stop()
+      const stop = new Task((rej, res) => server.close(res))
+      return localRequest.chain((results) => stop
         .map(() => results)
       )
     })
