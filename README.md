@@ -231,9 +231,8 @@ const _ = require('lodash')
 // (type) => {}
 const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-access-key')
 ```
-This stuff is hot like Vindaloo :) Of course only functions with a fixed arity (``arity == number of arguments``) can 
-be curried since all ``curry`` library helpers use ``Function.length``. If you know of a way to curry in Javascript 
-without using ``Function.length``, please let me know :)
+Of course you can only curry functions with a fixed arity (``arity == number of arguments``) or you'll have to provide 
+the function arity to the curry helper function up front (see lodash's ``curry`` function). 
 
 One thing I find helpful when creating new functions is to think of the arguments you're going to have values for 
 right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` 
@@ -259,7 +258,7 @@ This example introduces the ``data.task`` Monad from the [Folktale library](http
 Before I go on, you're probably wondering...
 
 #### map, chain, what?
-Right, here's the familiar ``Promise`` API:
+Right, let's start out with the familiar ``Promise`` API, we'll then contrast it with ``data.task``:
 ```javascript
 const addPromiseYay = (value) => Promise.resolve(`${value} YAY! :)`)
 
@@ -268,15 +267,32 @@ const excitedPromise = Promise.resolve('fun') // = resolved Promise, execution s
   .then((value) => addPromiseYay(value)) // = resolved Promise
   .then(console.log) // = simple value
 ```
-The ``Promise`` API doesn't make a distinction between returning a value, or a resolved Promise, both are handled with 
-``.then()``.
+Note that the ``Promise`` API does not make a distinction between returning a value, or a resolved Promise, both are 
+handled with ``.then()``.
+
+It's also worth noting that Promises run as soon as they're defined 
+([per the ECMAScript spec](https://tc39.github.io/ecma262/#sec-promise-constructor)). This code:
+```javascript
+console.log('Before promise is defined')
+const promise = new Promise((res, rej) => {
+  console.log('Promise is executing')
+  return res()
+})
+console.log('After promise is defined')
+```
+Prints:
+```
+Before promise is defined
+Promise is executing
+After promise is defined
+```
 
 Now consider ``map()`` and ``chain()``. We know ``map()`` from Arrays:
 ```javascript
 [0,1,2,3].map((i) => i + 1) // [1,2,3,4]
 ```
 What's ``map()`` doing? Well, you could say it takes an item out of an array, transforms it, and places it back into an 
-array.  That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a ``Task``, 
+array. That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a ``Task``, 
 transforms it, and places it back inside the ``Task`` e.g.:
 ```javascript
 Task.of('fun') // start off with a Task('fun')
@@ -320,26 +336,8 @@ control when the ``Task`` runs, the caller can take that ``Task`` and compose it
 ``.map()`` and  ``.chain()`` as per above. Once the caller has composed everything it needs, it can call ``fork()`` 
 to run the composed computations.
 
-It's worth noting that Promises run as soon as they're defined 
-([per the ECMAScript spec](https://tc39.github.io/ecma262/#sec-promise-constructor)). This code:
-```javascript
-console.log('Before promise is defined')
-const promise = new Promise((res, rej) => {
-  console.log('Promise is executing')
-  return res()
-})
-console.log('After promise is defined')
-```
-Prints:
-```
-Before promise is defined
-Promise is executing
-After promise is defined
-```
-
-### 
-
 #### BTW
+
 You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
 
 ---
