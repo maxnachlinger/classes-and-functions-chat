@@ -133,7 +133,6 @@ the network :) We can make ``requestP()`` pure, and we'll explore what that look
 ### 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
 
-
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
 
 Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
@@ -202,7 +201,6 @@ The takeaway here is that if you're going to use classes to construct your progr
 Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
 One benefit of dependency injection is it makes a class' dependencies explicit, which makes the class easier to 
 reason about.
-
 
 For my part, I think there are much simpler approaches to achieving decoupled, testable, code :)
 
