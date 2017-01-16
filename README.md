@@ -13,8 +13,9 @@ npm i
 node ./0-class/index.js
 ```
 
-### Notes (aka "The Presentation")
-
+### Notes
+#### for these to make sense, you'll need to look at the code for each section.
+---
 ### Requirement: get a set of results from a REST API on the network
 ---
 ### 0 - Class
