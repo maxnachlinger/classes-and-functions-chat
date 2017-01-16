@@ -287,7 +287,7 @@ Promise is executing
 After promise is defined
 ```
 
-Now consider ``map()`` and ``chain()``. We know ``map()`` from Arrays:
+Back to ``data.task``, now consider ``map()`` and ``chain()``. We know ``map()`` from Array:
 ```javascript
 [0,1,2,3].map((i) => i + 1) // [1,2,3,4]
 ```
