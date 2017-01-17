@@ -237,7 +237,7 @@ One thing I find helpful when creating new functions is to think of the argument
 right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` 
 validation schema before we have data to validate. Wouldn't this ``joi.validate`` signature be nice?
 ```javascript
-// joi.validate(schema, [options], value, [callback])
+joi.validate(schema, options, value, callback)
 ```
 Then we could do cool stuff like:
 ```javascript
