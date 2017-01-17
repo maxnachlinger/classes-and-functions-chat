@@ -203,8 +203,6 @@ Patterns and techniques like dependency injection. There are book-shelves filled
 One benefit of dependency injection is it makes a class' dependencies explicit, which makes the class easier to 
 reason about.
 
-For my part, I think there are much simpler approaches to achieving decoupled, testable, code :)
-
 ---
 ### 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
