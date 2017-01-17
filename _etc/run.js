@@ -45,6 +45,7 @@ const displayResults = (tag) => (results) => {
 module.exports = (tag) => (request) => {
   const display = displayResults(tag)
 
+  // is there a better way to tell if a passed object is a Promise?
   const localRequest = request.then ? new Task((rej, res) => request.then(res).catch(rej)) : request
 
   return start()

@@ -1,5 +1,5 @@
 'use strict'
-const urlLib = require('url') // urlLib since 'url' is a nice var name :)
+const urlLib = require('url')
 const joi = require('joi')
 const Task = require('data.task')
 const request = require('request')

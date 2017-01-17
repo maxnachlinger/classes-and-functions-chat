@@ -1,5 +1,5 @@
 'use strict'
-const urlLib = require('url') // urlLib since 'url' is a nice var name :)
+const urlLib = require('url')
 const joi = require('joi')
 const Task = require('data.task')
 const request = require('request')
@@ -55,6 +55,3 @@ module.exports.request = (serviceConfig, requestOptions) => prepareParams(servic
 // [value, value, value].map(requestT) // [Task, Task, Task] - you know map :)
 // .sequence(Task.of) // Task.of([result, result, result])
 // sequence flips our containers around
-
-// for testing
-module.exports.internals = {prepareParams, prepareRequestParams}

@@ -1,5 +1,4 @@
 'use strict'
-
 const _ = require('lodash')
 const joi = require('joi')
 const ThingRequest = require('./ThingRequest')

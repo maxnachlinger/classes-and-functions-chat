@@ -1,5 +1,5 @@
 'use strict'
-const urlLib = require('url') // urlLib since 'url' is a nice var name :)
+const urlLib = require('url')
 const joi = require('joi')
 const Promise = require('bluebird')
 
@@ -43,6 +43,3 @@ module.exports.request = (serviceConfig, requestOptions) => prepareParams(servic
   .then((options) => prepareRequestParams(options))
   .then((requestParams) => requestP(requestParams))
   .then((results) => transformResults(results))
-
-// for testing
-module.exports.internals = {prepareParams, prepareRequestParams, transformResults}

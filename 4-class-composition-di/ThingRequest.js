@@ -44,5 +44,3 @@ class ThingRequest {
 }
 
 module.exports = ThingRequest
-// base class modification
-module.exports.serviceConfigSchema = serviceConfigSchema
