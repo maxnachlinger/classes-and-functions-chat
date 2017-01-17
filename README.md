@@ -237,18 +237,15 @@ the function arity to the curry helper function up front (see lodash's ``curry``
 
 One thing I find helpful when creating new functions is to think of the arguments you're going to have values for 
 right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` 
-validation schema before we have data to validate. Wouldn't this ``.validate`` signature be nice?
+validation schema before we have data to validate. Wouldn't this ``joi.validate`` signature be nice?
 ```javascript
-// instead of: 
-validate(value, schema, [options], [callback])
-// how about: 
-validate(schema, value, [options], [callback])
+// joi.validate(schema, [options], value, [callback])
 ```
 Then we could do cool stuff like:
 ```javascript
 const validate = _.curry(joi.validate, {
   name: joi.string().required()
-}); // --> (value, [options], [callback]) => {}
+})({allowUnknown: true}); // --> (value) => (callback) => {}
 ```
 
 ---
