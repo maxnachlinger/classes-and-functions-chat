@@ -38,7 +38,7 @@ that function. We can improve this.
 
 - To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method 
 in one of our classes is invoked. 
-- and woe to he or she who forgets the `new` keyword when instantiating a class
+- and woe to he or she who forgets the `new` keyword
 - If you want private things, you can only have them via closures
 
 ---
