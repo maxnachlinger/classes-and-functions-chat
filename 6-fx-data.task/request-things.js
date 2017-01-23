@@ -23,11 +23,8 @@ const prepareParams = (serviceConfig, requestOptions) => {
 }
 
 const prepareRequestParams = (options) => {
-  // no destructuring in node 4 :(
-  const url = options.serviceConfig.url
-  const accessKey = options.serviceConfig.accessKey
-  const type = options.requestOptions.type
-  const limit = options.requestOptions.limit
+  const {url, accessKey} = options.serviceConfig
+  const {type, limit} = options.requestOptions
 
   return {
     url: urlLib.format(Object.assign(urlLib.parse(url), {
