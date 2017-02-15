@@ -41,6 +41,16 @@ in one of our classes is invoked.
 - and woe to he or she who forgets the `new` keyword
 - If you want private things, you can only have them via closures
 
+#### Not convinced? Consider this example of code calling a function vs a class + method:
+```javascript
+// Function f
+f(a, b, c)
+
+// vs Class C with method f
+const c = new C(a)
+c.f(b,c)
+```
+You're adding all the complexity of a class and an instance to save passing ``a`` :)
 ---
 ### 1 - Function
 [Relevant code](./1-fx)
