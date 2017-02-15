@@ -50,7 +50,9 @@ f(a, b, c)
 const c = new C(a)
 c.f(b,c)
 ```
-You're adding all the complexity of a class and an instance to save passing ``a`` :)
+
+The class apporach adds lots of complexity to save having to pass ``a`` to ``f()``.
+
 ---
 ### 1 - Function
 [Relevant code](./1-fx)
