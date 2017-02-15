@@ -34,14 +34,7 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
-#### Compared to languages like C# and JAVA, classes in Javascript are a bit _awkward_ 
-
-- To use classes and objects in Javascript we have to `.bind` everywhere to ensure `this` doesn't change when a method 
-in one of our classes is invoked. 
-- and woe to he or she who forgets the `new` keyword
-- If you want private things, you can only have them via closures
-
-#### Not convinced? Consider this example of code calling a function vs a class + method:
+#### Consider this example of code calling a function vs a class + method:
 ```javascript
 // Function f
 f(a, b, c)
@@ -50,8 +43,7 @@ f(a, b, c)
 const c = new C(a)
 c.f(b,c)
 ```
-
-The class apporach adds lots of complexity to save having to pass ``a`` to ``f()``.
+The class apporach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
 
 ---
 ### 1 - Function
