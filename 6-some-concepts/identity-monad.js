@@ -16,14 +16,7 @@ const simpleMap = identity.of(42)
 
 console.log(simpleMap)
 
-const badMap = identity.of(42)
-  .map((x) => x + 1)
-  .map((x) => identity.of(`Test ${x}`))
-
-console.log(badMap.inspect())
-
-const chainToTheRescue = identity.of(42)
-  .map((x) => x + 1)
-  .chain((x) => identity.of(`Test ${x}`))
+const chainToTheRescue = identity.of(1)
+  .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1')
 
 console.log(chainToTheRescue.inspect())
