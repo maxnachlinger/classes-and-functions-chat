@@ -292,7 +292,7 @@ We just got our result via composing `add()` and `Math.pow`. Another benefit her
 are [pure](#pure-function). 
 
 ### Functor - a fancy name for a plain concept
-You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` method. 
+You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` function. 
 When values are wrapped in contexts, we cannot run functions on those values, this is what `map()` helps us to do - 
 run functions on values in contexts.
 
@@ -322,7 +322,7 @@ const simpleMap = identity(1)
 ```
 
 ### Pointed functors
-A pointed functor is a functor with an `of()` method. Pretty simple, check it out:
+A pointed functor is a functor with an `of()` function. Pretty simple, check it out:
 [Relevant code](6-some-concepts/identity-pointed-functor.js)
 ```javascript
 'use strict'
@@ -350,7 +350,7 @@ definition tied to specific classes, `of()` is common. You'll also hear `of()` r
 
 ### when map() doesn't work
 
-Consider the previous Pointed Functor (you know, a unit of computation with a `map()` and an `of()` method).
+Consider the previous Pointed Functor (you know, a unit of computation with a `map()` and an `of()` function).
 ```javascript
 'use strict'
 
@@ -384,7 +384,7 @@ const mapAttempt = [1]
 ```
 
 ### enter chain(), a "flat" map()
-Let's fix this by adding a simple method called `chain()` to our functor.
+Let's fix this by adding a simple function called `chain()` to our functor.
 
 ```javascript
 const identity = ({
@@ -411,8 +411,8 @@ which returns a new Identity functor of `'Test 1`. `chain()` then takes the retu
 it. 
 
 ### The M word - Monads!
-The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` method is a _Monad_. Monads are
-pointed functors that have a `chain()` (or flatMap or bind) method. Hey, now you know what a Monad is!
+The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` function is a _Monad_. Monads are
+pointed functors that have a `chain()` (or flatMap or bind) function. Hey, now you know what a Monad is!
 
 [Relevant code](6-some-concepts/identity-monad.js)
 ```javascript
