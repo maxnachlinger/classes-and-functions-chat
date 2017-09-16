@@ -370,7 +370,7 @@ let's try to compose the new functor with our existing one using `map()`, here's
 const mapAttempt = identity.of(1)
   .map((x) => identity.of(`Test ${x}`)) // Identity(Identity('Test 1'))
 ```
-Egad! See that `Identity(Identity('Test 5'))` line? 
+Egad! See that `Identity(Identity('Test 1'))` line? 
 
 No, `map()` isn't broken. Like most annoyances in our field - _the code did exactly what we told it to do_ :)
 
