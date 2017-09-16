@@ -1,29 +1,29 @@
 ## classes-and-functions-chat
 
-### Installation
+## Installation
 ```shell
 git clone git@github.com:maxnachlinger/classes-and-functions-chat.git
 cd classes-and-functions-chat
 npm i
 ```
 
-### Run the examples
+## Run the examples
 ```shell
 # you can run the index.js file in each directory
 node ./0-class/index.js
 ```
 
-### Notes
-#### for these to make sense, you'll need to look at the code for each section.
+## Notes
+### for these to make sense, you'll need to look at the code for each section.
 ---
-### Requirement: get a set of results from a REST API on the network
+## Requirement: get a set of results from a REST API on the network
 ---
-### 0 - Class
+## 0 - Class
 [Relevant code](./0-class)
 
 A ``ThingRequest`` class.
 
-#### Question:
+### Question:
 Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
@@ -34,7 +34,7 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
-#### Consider this example of code calling a function vs a class + method:
+### Consider this example of code calling a function vs a class + method:
 ```javascript
 // Function f
 f(a, b, c)
@@ -46,7 +46,7 @@ c.f(b,c)
 The class apporach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
 
 ---
-### 1 - Function
+## 1 - Function
 [Relevant code](./1-fx)
 
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
@@ -59,7 +59,7 @@ instance method. The calling code in ``index.js`` shows that partial application
 
 In case you don't know what partial application is:
 
-#### Partial Application:
+### Partial Application:
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -77,7 +77,7 @@ const _ = require('lodash')
 const getStuffLocal2 = _.partial(getStuff, 'http://www.example.com', 'secret-access-key')
 ```
 
-#### Question:
+### Question:
 From the point of view of the calling code, which is more maintainable? A class you instantiate with an arg and
 an instance method you call with another arg,
 
@@ -98,22 +98,22 @@ request(serviceConfig, {type: 'squirrels', limit: 5})
 ```
 
 ---
-### 2 - Extract and compose pure functions
+## 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
 
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
-``transformResults()``.
+`transformResults()``.
 
 Promises are used to compose those functions along with ``requestP()``.
 
-#### Benefits of this approach:
+### Benefits of this approach:
 - Each function gets just enough state to do it's job
 - Each function has one responsibility
 - + all the benefits of pure functions.
 
 In case you've no idea what a Pure function is:
 
-#### Pure Function:
+### Pure Function:
 
 A fancy phrase which means a function that:
 * given the same input will always return the same output
@@ -132,18 +132,18 @@ It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on 
 the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
 
 ---
-### Requirement-change: get a set of results from a REST API on the network and validate those results
+## Requirement-change: get a set of results from a REST API on the network and validate those results
 
 ---
-### 3 - Class inheritance
+## 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
 
 Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
-``serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
+`serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
 
-#### Wait a moment
+### Wait a moment
 Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
@@ -159,13 +159,13 @@ of their parent classes. As systems structured in this way grow, these dependenc
 side-effects to altering state are even less obvious.
 
 ---
-### 4 - Class composition through Dependency Injection
+## 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
 
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
-``ThingRequest`` injected into it.
+`ThingRequest`` injected into it.
 
-#### Dependency Injection
+### Dependency Injection
 
 A fancy term for passing a class it's dependencies.
 
@@ -200,7 +200,7 @@ class ValidatedThingRequest {
 We're _injecting_ ``ValidatedThingRequest``'s ``ThingRequest`` dependency. 
 
 Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` isn't responsible for managing 
-``ThingRequest``. It can simply use the instance passed in.
+`ThingRequest``. It can simply use the instance passed in.
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
 Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
@@ -208,15 +208,15 @@ One benefit of dependency injection is it makes a class' dependencies explicit, 
 reason about.
 
 ---
-### 5 - More pure function composition
+## 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
 
-``validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
+`validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
 result schema way before we have the result.
 
 In case you have no idea what currying is:
 
-#### Currying
+### Currying
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -249,16 +249,199 @@ const validate = _.curry(joi.validate, {
   name: joi.string().required()
 })({allowUnknown: true}); // --> (value) => (callback) => {}
 ```
+---
+## 6 - Some concepts
+Here's an int: `42`
+
+and here's that int in an array: `[42]`
+
+`[42]` is still an int value, but now it's in a _context_ - an array. So we might say, `42` is an int value in 
+the content of an array `[]`.
+
+### map()
+Here's an awesome `add()` function which can handle an input of 2 numbers:
+```javascript
+const add = (a, b) => a + b
+```
+Look at it go!
+```javascript
+add(42, 1) // 43
+```
+but `add()` has no idea what to do with an int in an array :(
+```javascript
+add([42], 1) // '421' - egad! That's from the node repl BTW :)
+```
+To use `add()` on an int in an array we have to use `.map()`:
+```javascript
+[42].map((i) => add(i, 1)) // [43]
+```
+
+Great, so what's `map()` doing here? 
+
+`map()` is taking the value `42` out of the array (the context), running `add(42, 1)` 
+against that value, and placing the result of `add(42, 1)` into a new array (a new context). 
+
+`map()` also allows us to compose functions, check this out:
+```javascript
+[1]
+  .map((i) => add(i, 1)) // [2]
+  .map((i) => Math.pow(i, 2)) // [4]
+  .map((i) => add(i, 1)) // [5]
+```
+We just got our result via composing `add()` and `Math.pow`. Another benefit here is that the functions in each map 
+are [pure](#pure-function). 
+
+### Functor - a fancy name for a plain concept
+You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` method. 
+When values are wrapped in contexts, we cannot run functions on those values, this is what `map()` helps us to do - 
+run functions on values in contexts.
+
+### Identity - A really simple functor
+[Relevant code](6-some-concepts/identity-functor.js)
+```javascript
+'use strict'
+
+const util = require('util')
+
+const identity = (x) => ({
+  map: (f) => identity(f(x)),
+  // for debugging
+  inspect: () => `Identity(${util.inspect(x, {depth: null})})`
+})
+```
+`inspect()` just prints the value out for us for debugging. Let's focus on `map()`. `map()` takes a function `f` and 
+passes `f` the Identity functor's value as an argument `f(x)`. `map()` then places the result of `f(x)` into a new 
+Identity functor via `identity(f(x))`.
+
+Here's how to use it:
+```javascript
+const simpleMap = identity(1)
+  .map((i) => add(i, 1)) // Identity(2)
+  .map((i) => Math.pow(i, 2)) // Identity(4)
+  .map((i) => add(i, 1)) // Identity(5)
+```
+
+### Pointed functors
+A pointed functor is a functor with an `of()` method. Pretty simple, check it out:
+[Relevant code](6-some-concepts/identity-pointed-functor.js)
+```javascript
+'use strict'
+
+const util = require('util')
+
+const identity = ({
+  of: (x) => ({
+    map: (f) => identity.of(f(x)),
+    // for debugging
+    inspect: () => `Identity(${util.inspect(x, {depth: null})})`
+  })
+})
+
+const simpleMap = identity.of(1)
+  .map((i) => add(i, 1)) // Identity(2)
+  .map((i) => Math.pow(i, 2)) // Identity(4)
+  .map((i) => add(i, 1)) // Identity(5)
+```
+
+`of()` probably looks a lot like a constructor, but it isn't. `of()` is a common interface which allows us to create 
+a value and place it in a default minimal context. This is quite different from a constructor, constructors are by 
+definition tied to specific classes, `of()` is common. You'll also hear `of()` referred to as `unit`, `pure`, and 
+`point`.
+
+### when map() doesn't work
+
+Consider the previous Pointed Functor (you know, a unit of computation with a `map()` and an `of()` method).
+```javascript
+'use strict'
+
+const util = require('util')
+
+const identity = ({
+  of: (x) => ({
+    map: (f) => identity.of(f(x)),
+    // for debugging
+    inspect: () => `Identity(${util.inspect(x, {depth: null})})`
+  })
+})
+```
+Now say we wanted to use another pointed functor in our program. Since we're used to composing things in our programs, 
+let's try to compose the new functor with our existing one using `map()`, here's a first pass:
+```javascript
+const mapAttempt = identity.of(1)
+  .map((x) => identity.of(`Test ${x}`)) // Identity(Identity('Test 1'))
+```
+Egad! See that `Identity(Identity('Test 5'))` line? 
+
+No, `map()` isn't broken. Like most annoyances in our field - _the code did exactly what we told it to do_ :)
+
+Remember that `map()` takes a value out of it's context (the Identity functor), runs a function using that value, and 
+places the result of that function into a new context - in this case a new the Identity functor.
+
+If this is still confusing, consider the same example with an array:
+```javascript
+const mapAttempt = [1]
+  .map((x) => [`Test ${x}`]) // [['Test 1']] <-- has the same nesting issue
+```
+
+### enter chain(), a "flat" map()
+Let's fix this by adding a simple method called `chain()` to our functor.
+
+```javascript
+const identity = ({
+  // of() is also known as unit, pure, and point
+  of: (x) => ({
+    chain: (f) => f(x), // chain() is also known as flatMap or bind
+    map: (f) => identity.of(f(x)),
+    // for debugging
+    inspect: () => `Identity(${util.inspect(x, {depth: null})})`
+  })
+})
+```
+`chain()` above is taking a function `f` and passing it the value from the functor `x` but instead of placing the 
+result of `f(x)` back into a new functor (a new context) like `map()`, it's simply returning the result of `f(x)`. 
+Now let's try composing 2 functors via `chain()`:
+```javascript
+const simpleChain = identity.of(1)
+  .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1') mich nicer!
+```
+Success! 
+ 
+So in the example above, we start with: `identity.of(1)`, then we have a function `(x) => identity.of(``Test ${x}``)`
+which returns a new Identity functor of `'Test 1`. `chain()` then takes the returned `identity.of(Test 1)` and returns
+it. 
+
+### The M word - Monads!
+The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` method is a _Monad_. Monads are
+pointed functors that have a `chain()` (or flatMap or bind) method. Hey, now you know what a Monad is!
+
+[Relevant code](6-some-concepts/identity-monad.js)
+```javascript
+const identityMonad = ({
+  // of() is also known as unit, pure, and point
+  of: (x) => ({
+    chain: (f) => f(x), // chain() is also known as flatMap or bind
+    map: (f) => identity.of(f(x)),
+    // for debugging
+    inspect: () => `Identity(${util.inspect(x, {depth: null})})`
+  })
+})
+```
+You can compose Monads together just like we composed functors together above, `chain()` works for that case too. 
+```javascript
+const chainToTheRescue = identity.of(1)
+  .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1')
+```
+
+There are 3 laws monads must obey to be called monads, but I'm not going to go into them right now. We've had enough 
+theory, let's take some Monads out for a spin!
 
 ---
-### 6 - Awesome composition via the ``data.task`` Monad
-[Relevant code](./6-fx-data.task)
+## 7 - Awesome composition via the ``data.task`` Monad
+[Relevant code](7-fx-data.task)
 
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
-Before I go on, you're probably wondering...
 
-#### map, chain, what?
-Right, let's start out with the familiar ``Promise`` API, we'll then contrast it with ``data.task``:
+Let's start out with the familiar ``Promise`` API, we'll then contrast it with ``data.task``:
 ```javascript
 const addPromiseYay = (value) => Promise.resolve(`${value} YAY! :)`)
 
@@ -287,32 +470,24 @@ Promise is executing
 After promise is defined
 ```
 
-Back to ``data.task``, now consider ``map()`` and ``chain()``. We know ``map()`` from Array:
+Back to `data.task`, it has our friends `of()`, `map()` and `chain()`. Here's a `map()` over `data.task`:
+
+`map()` is pulling a value out of a `Task`, transforming it, and placing it back inside a new `Task` e.g.:
 ```javascript
-[0,1,2,3].map((i) => i + 1) // [1,2,3,4]
-```
-What's ``map()`` doing? Well, you could say it takes an item out of an array, transforms it, and places it back into an 
-array. That's exactly what the ``.map()`` in our ``data.task`` example is doing. It pulls a value out of a ``Task``, 
-transforms it, and places it back inside the ``Task`` e.g.:
-```javascript
-Task.of('fun') // start off with a Task('fun')
-  // map pulls out the value "fun" from the Task, upper-cases it, and then places it back into the Task.
+Task.of('fun')
   .map((value) => value.toUpperCase()) // Task('FUN')
 ```
 
-Now what if I want to pull a value out of a ``Task`` and use it in a new ``Task``? Here's what ``.map()`` would get us:
+Now if I want to pull a value out of a `Task` and use it in a new `Task` we know `map()` won't help, e.g.:
 ```javascript
 Task.of('fun') // Task('fun')
-  // map pulls out the value "fun" from the Task, creates a new Task with that value upper-cased, 
-  // and then places it back into the Task.
-  .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN')) <-- :(
+  .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN'))
 ```
-See that crazy ``Task(Task('FUN'))``? That's not what we want! ``map()`` isn't up to shenanigans, it's following it's 
-contract. The problem is, we don't want the new ``Task`` put back inside a ``Task``, we want a new ``Task``.
-
-This is what ``chain()`` does. ``.chain()`` takes a value and returns a new ``Task`` with that value inside it. So instead
-of nesting like ``.map()``, ``chain()`` transforms a value and places it in to a new ``Task``. ``chain()`` is sometimes 
-called ``flatMap()``, which (hopefully now) is a pretty descriptive name :)
+but `chain()` will:
+```javascript
+Task.of('fun') // Task('fun')
+  .map((value) => Task.of(value.toUpperCase())) // Task('FUN')
+```
 
 OK, let's consider the ``Task`` analog to the above ``Promise`` example:
 ```javascript
@@ -327,28 +502,24 @@ const excitedTask = Task.of('fun') // Task('fun')
   .fork(console.error, console.log); // error or FUN YAY! :)
 ```
 
-#### Why use data.Task?
+### Why use data.Task?
 
-Remember that previously ``request()`` wasn't pure, its output varied based on state external to its input, namely the 
-network. Now ``request()`` is pure and easily composable with other functions. We've also pushed control for running 
-``request()`` and handling errors out to the caller, which is where those concerns belong. By letting the caller 
-control when the ``Task`` runs, the caller can take that ``Task`` and compose it with other computations via 
-``.map()`` and  ``.chain()`` as per above. Once the caller has composed everything it needs, it can call ``fork()`` 
+Remember that previously `request()` wasn't pure, its output varied based on state external to its input, namely the 
+network. Now `request()` is pure and easily composable with other functions. We've also pushed control for running 
+`request()` and handling errors out to the caller, which is where those concerns belong. By letting the caller 
+control when the `Task` runs, the caller can take that `Task` and compose it with other computations via 
+`.map()` and `.chain()` as per above. Once the caller has composed everything it needs, it can call `fork()` 
 to run the composed computations.
 
-#### BTW
-
-You'll find ``chain()`` and ``map()`` on other Monads as well, not just ``data.task``
-
 ---
-### 7 - (fun?) bonus
-[Relevant code](./7-fx-data.task-parallel-calls)
+## 8 - (fun?) bonus
+[Relevant code](8-fx-data.task-parallel-calls)
 
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
 ---
-### Solutions not considered:
-#### Factory function
+## Solutions not considered:
+### Factory function
 It would have been possible to define ``request-things::request`` like this (pseudo code):
 ```javascript
 (serviceConfig) => {
@@ -382,7 +553,7 @@ instead of one which looks like this:
 Not much of a benefit, well, unless ``joi`` is our bottleneck :)
 
 ---
-### Hey watch these videos, they're awesome!
+## Hey watch these videos, they're awesome!
 
 - [Professor Frisby Introduces Composable Functional JavaScript](
 https://egghead.io/courses/professor-frisby-introduces-function-composition)
