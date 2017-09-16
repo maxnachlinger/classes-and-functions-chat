@@ -406,7 +406,7 @@ const simpleChain = identity.of(1)
 ```
 Success! 
  
-So in the example above, we start with: `identity.of(1)`, then we have a function `(x) => identity.of(`Test ${x}`)`
+So in the example above, we start with: `identity.of(1)`, then we have a function `(x) => identity.of(Test ${x})`
 which returns a new Identity functor of `'Test 1`. `chain()` then takes the returned `identity.of(Test 1)` and returns
 it. 
 
