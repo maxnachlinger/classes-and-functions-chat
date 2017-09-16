@@ -311,7 +311,7 @@ const identity = (x) => ({
 ```
 `inspect()` just prints the value out for us for debugging. Let's focus on `map()`. `map()` takes a function `f` and 
 passes `f` the Identity functor's value as an argument `f(x)`. `map()` then places the result of `f(x)` into a new 
-Identity functor via `identity(f(x)`.
+Identity functor via `identity(f(x))`.
 
 Here's how to use it:
 ```javascript
@@ -351,7 +351,6 @@ definition tied to specific classes, `of()` is common. You'll also hear `of()` r
 ### when map() doesn't work
 
 Consider the previous Pointed Functor (you know, a unit of computation with a `map()` and an `of()` method).
-
 ```javascript
 'use strict'
 
@@ -373,7 +372,7 @@ const mapAttempt = identity.of(1)
 ```
 Egad! See that `Identity(Identity('Test 5'))` line? 
 
-No, `map()` isn't broken. Like most annoyances in our field - the code did exactly what we told it to do :)
+No, `map()` isn't broken. Like most annoyances in our field - _the code did exactly what we told it to do_ :)
 
 Remember that `map()` takes a value out of it's context (the Identity functor), runs a function using that value, and 
 places the result of that function into a new context - in this case a new the Identity functor.
@@ -398,23 +397,22 @@ const identity = ({
   })
 })
 ```
+`chain()` above is taking a function `f` and passing it the value from the functor `x` but instead of placing the 
+result of `f(x)` back into a new functor (a new context) like `map()`, it's simply returning the result of `f(x)`. 
 Now let's try composing 2 functors via `chain()`:
 ```javascript
 const simpleChain = identity.of(1)
   .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1') mich nicer!
 ```
 Success! 
-
-`chain()` above is taking a function `f` and passing it the value from the functor `x` but instead of placing the 
-result of `f(x)` back into a new functor (a new context) like `map()`, it's simply returning the result of `f(x)`.
  
 So in the example above, we start with: `identity.of(1)`, then we have a function `(x) => identity.of(``Test ${x}``)`
 which returns a new Identity functor of `'Test 1`. `chain()` then takes the returned `identity.of(Test 1)` and returns
 it. 
 
 ### The M word - Monads!
-The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` method is a Monad. Monads are
-pointed functors that have a `chain()` (or flatMap or bind) method.
+The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` method is a _Monad_. Monads are
+pointed functors that have a `chain()` (or flatMap or bind) method. Hey, now you know what a Monad is!
 
 [Relevant code](6-some-concepts/identity-monad.js)
 ```javascript
@@ -428,7 +426,7 @@ const identityMonad = ({
   })
 })
 ```
-Now you can compose Monads together just like we composed functors together above, `chain()` is awesome like that. 
+You can compose Monads together just like we composed functors together above, `chain()` works for that case too. 
 ```javascript
 const chainToTheRescue = identity.of(1)
   .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1')
