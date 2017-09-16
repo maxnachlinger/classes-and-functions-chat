@@ -289,7 +289,7 @@ against that value, and placing the result of `add(42, 1)` into a new array (a n
   .map((i) => add(i, 1)) // [5]
 ```
 We just got our result via composing `add()` and `Math.pow`. Another benefit here is that the functions in each map 
-are pure. 
+are [pure](#pure-function). 
 
 #### Functor - a fancy name for a plain concept
 You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` method. 
