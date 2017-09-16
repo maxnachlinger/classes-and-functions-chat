@@ -6,7 +6,7 @@ and here's that int in an array: `[42]`
 the content of an array `[]`.
 
 ## map()
-Here's a awesome `add()` function which can handle an input of 2 ints:
+Here's an awesome `add()` function which can handle an input of 2 numbers:
 ```javascript
 const add = (a, b) => a + b
 ```
@@ -28,14 +28,27 @@ Great, so what's `map()` doing here?
 It's taking the value `42` out of the array (the context), running `add(42, 1)` 
 against that value, and placing the result of `add(42, 1)` into a new array (a new context). 
 
-`map()` also allows for composition, check it out:
+`map()` also allows us to compose functions, check it out:
 ```javascript
 [1]
   .map((i) => add(i, 1)) // [2]
   .map((i) => Math.pow(i, 2)) // [4]
   .map((i) => add(i, 1)) // [5]
 ```
-We just got our result via composing `add()` and `Math.pow`. Another benefit here is that the functions in each map are pure - they get their state only from their parameters and (these methods at least) don't have side effects.
+We just got our result via composing `add()` and `Math.pow`. Another benefit here is that the functions in each map 
+are pure - a function is pure if:
+
+- given the same input, it will always return the same output
+- produces no side effects - a side effect is any application state change that is observable outside the called 
+function other than its return value.
+- gets all its state from its arguments.
+
+Why should I care about all this Pure Function nonsense anyway?
+
+- You can memoize / cache them
+- They are super easy to test
+- They (can be) simple to reason about and maintain.
+- You can run N of them at once without issue.
 
 ## Functor - a fancy name for a plain concept
 You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` method. 
