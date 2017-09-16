@@ -1,29 +1,29 @@
 ## classes-and-functions-chat
 
-### Installation
+## Installation
 ```shell
 git clone git@github.com:maxnachlinger/classes-and-functions-chat.git
 cd classes-and-functions-chat
 npm i
 ```
 
-### Run the examples
+## Run the examples
 ```shell
 # you can run the index.js file in each directory
 node ./0-class/index.js
 ```
 
-### Notes
-#### for these to make sense, you'll need to look at the code for each section.
+## Notes
+### for these to make sense, you'll need to look at the code for each section.
 ---
-### Requirement: get a set of results from a REST API on the network
+## Requirement: get a set of results from a REST API on the network
 ---
-### 0 - Class
+## 0 - Class
 [Relevant code](./0-class)
 
 A ``ThingRequest`` class.
 
-#### Question:
+### Question:
 Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
@@ -34,7 +34,7 @@ about, work on, and test.**
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
 that function. We can improve this.
 
-#### Consider this example of code calling a function vs a class + method:
+### Consider this example of code calling a function vs a class + method:
 ```javascript
 // Function f
 f(a, b, c)
@@ -46,7 +46,7 @@ c.f(b,c)
 The class apporach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
 
 ---
-### 1 - Function
+## 1 - Function
 [Relevant code](./1-fx)
 
 This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
@@ -59,7 +59,7 @@ instance method. The calling code in ``index.js`` shows that partial application
 
 In case you don't know what partial application is:
 
-#### Partial Application:
+### Partial Application:
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -77,7 +77,7 @@ const _ = require('lodash')
 const getStuffLocal2 = _.partial(getStuff, 'http://www.example.com', 'secret-access-key')
 ```
 
-#### Question:
+### Question:
 From the point of view of the calling code, which is more maintainable? A class you instantiate with an arg and
 an instance method you call with another arg,
 
@@ -98,7 +98,7 @@ request(serviceConfig, {type: 'squirrels', limit: 5})
 ```
 
 ---
-### 2 - Extract and compose pure functions
+## 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
 
 A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
@@ -106,14 +106,14 @@ A few new pure functions are extracted, namely ``prepareParams()``, ``prepareReq
 
 Promises are used to compose those functions along with ``requestP()``.
 
-#### Benefits of this approach:
+### Benefits of this approach:
 - Each function gets just enough state to do it's job
 - Each function has one responsibility
 - + all the benefits of pure functions.
 
 In case you've no idea what a Pure function is:
 
-#### Pure Function:
+### Pure Function:
 
 A fancy phrase which means a function that:
 * given the same input will always return the same output
@@ -132,10 +132,10 @@ It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on 
 the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
 
 ---
-### Requirement-change: get a set of results from a REST API on the network and validate those results
+## Requirement-change: get a set of results from a REST API on the network and validate those results
 
 ---
-### 3 - Class inheritance
+## 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
 
 This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
@@ -143,7 +143,7 @@ This example adds result-validation by extending ``ThingRequest`` with a new chi
 Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
 `serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
 
-#### Wait a moment
+### Wait a moment
 Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
@@ -159,13 +159,13 @@ of their parent classes. As systems structured in this way grow, these dependenc
 side-effects to altering state are even less obvious.
 
 ---
-### 4 - Class composition through Dependency Injection
+## 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
 
 This attempts to add result-validation by creating a class which adds that validation by having an instance of
 `ThingRequest`` injected into it.
 
-#### Dependency Injection
+### Dependency Injection
 
 A fancy term for passing a class it's dependencies.
 
@@ -208,7 +208,7 @@ One benefit of dependency injection is it makes a class' dependencies explicit, 
 reason about.
 
 ---
-### 5 - More pure function composition
+## 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
 
 `validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
@@ -216,7 +216,7 @@ result schema way before we have the result.
 
 In case you have no idea what currying is:
 
-#### Currying
+### Currying
 
 A fancy phrase for taking a function with, say, 3 params, like this:
 ```javascript
@@ -250,7 +250,7 @@ const validate = _.curry(joi.validate, {
 })({allowUnknown: true}); // --> (value) => (callback) => {}
 ```
 ---
-### 6 - Some concepts
+## 6 - Some concepts
 Here's an int: `42`
 
 and here's that int in an array: `[42]`
@@ -258,7 +258,7 @@ and here's that int in an array: `[42]`
 `[42]` is still an int value, but now it's in a _context_ - an array. So we might say, `42` is an int value in 
 the content of an array `[]`.
 
-#### map()
+### map()
 Here's an awesome `add()` function which can handle an input of 2 numbers:
 ```javascript
 const add = (a, b) => a + b
@@ -291,12 +291,12 @@ against that value, and placing the result of `add(42, 1)` into a new array (a n
 We just got our result via composing `add()` and `Math.pow`. Another benefit here is that the functions in each map 
 are [pure](#pure-function). 
 
-#### Functor - a fancy name for a plain concept
+### Functor - a fancy name for a plain concept
 You've just seen a `functor`. A `functor` is a fancy term for a mappable thing, or a thing with a `map()` method. 
 When values are wrapped in contexts, we cannot run functions on those values, this is what `map()` helps us to do - 
 run functions on values in contexts.
 
-#### Identity - A really simple functor
+### Identity - A really simple functor
 [Relevant code](6-some-concepts/identity-functor.js)
 ```javascript
 'use strict'
@@ -321,7 +321,7 @@ const simpleMap = identity(1)
   .map((i) => add(i, 1)) // Identity(5)
 ```
 
-#### Pointed functors
+### Pointed functors
 A pointed functor is a functor with an `of()` method. Pretty simple, check it out:
 [Relevant code](6-some-concepts/identity-pointed-functor.js)
 ```javascript
@@ -348,7 +348,7 @@ a value and place it in a default minimal context. This is quite different from 
 definition tied to specific classes, `of()` is common. You'll also hear `of()` referred to as `unit`, `pure`, and 
 `point`.
 
-#### when map() doesn't work
+### when map() doesn't work
 
 Consider the previous Pointed Functor (you know, a unit of computation with a `map()` and an `of()` method).
 
@@ -384,7 +384,7 @@ const mapAttempt = [1]
   .map((x) => [`Test ${x}`]) // [['Test 1']] <-- has the same nesting issue
 ```
 
-#### enter chain(), a "flat" map()
+### enter chain(), a "flat" map()
 Let's fix this by adding a simple method called `chain()` to our functor.
 
 ```javascript
@@ -412,7 +412,7 @@ So in the example above, we start with: `identity.of(1)`, then we have a functio
 which returns a new Identity functor of `'Test 1`. `chain()` then takes the returned `identity.of(Test 1)` and returns
 it. 
 
-#### The M word - Monads!
+### The M word - Monads!
 The code we created above, a pointed functor (with `of()` and `map()`) and a `chain()` method is a Monad. Monads are
 pointed functors that have a `chain()` (or flatMap or bind) method.
 
@@ -438,7 +438,7 @@ There are 3 laws monads must obey to be called monads, but I'm not going to go i
 theory, let's take some Monads out for a spin!
 
 ---
-### 7 - Awesome composition via the ``data.task`` Monad
+## 7 - Awesome composition via the ``data.task`` Monad
 [Relevant code](7-fx-data.task)
 
 This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
@@ -504,7 +504,7 @@ const excitedTask = Task.of('fun') // Task('fun')
   .fork(console.error, console.log); // error or FUN YAY! :)
 ```
 
-#### Why use data.Task?
+### Why use data.Task?
 
 Remember that previously `request()` wasn't pure, its output varied based on state external to its input, namely the 
 network. Now `request()` is pure and easily composable with other functions. We've also pushed control for running 
@@ -514,14 +514,14 @@ control when the `Task` runs, the caller can take that `Task` and compose it wit
 to run the composed computations.
 
 ---
-### 8 - (fun?) bonus
+## 8 - (fun?) bonus
 [Relevant code](8-fx-data.task-parallel-calls)
 
 This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
 
 ---
-### Solutions not considered:
-#### Factory function
+## Solutions not considered:
+### Factory function
 It would have been possible to define ``request-things::request`` like this (pseudo code):
 ```javascript
 (serviceConfig) => {
@@ -555,7 +555,7 @@ instead of one which looks like this:
 Not much of a benefit, well, unless ``joi`` is our bottleneck :)
 
 ---
-### Hey watch these videos, they're awesome!
+## Hey watch these videos, they're awesome!
 
 - [Professor Frisby Introduces Composable Functional JavaScript](
 https://egghead.io/courses/professor-frisby-introduces-function-composition)
