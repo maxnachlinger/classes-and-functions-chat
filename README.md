@@ -28,7 +28,7 @@ Where does ``ThingRequest::request()`` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
 
-How a function gets it's state can be complicated. **Minimizing that complexity makes the function easier to think 
+How a function gets its state can be complicated. **Minimizing that complexity makes the function easier to think 
 about, work on, and test.**
 
 In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
@@ -43,7 +43,7 @@ f(a, b, c)
 const c = new C(a)
 c.f(b,c)
 ```
-The class apporach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
+The class approach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
 
 ---
 ## 1 - Function
@@ -144,7 +144,7 @@ Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema
 `serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
 
 ### Wait a moment
-Wasn't the whole point of inheritance the ability to re-use code without modifying it? Modifying a base class when
+Wasn't the whole point of inheritance the ability to reuse code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
 There are other ways of structuring ``ThingRequest`` and ``ValidatedThingRequest`` to get around _some_ of these issues 
@@ -203,7 +203,7 @@ Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` 
 `ThingRequest``. It can simply use the instance passed in.
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
-Patterns and techniques like dependency injection. There are book-shelves filled with great old tomes on this stuff.
+Patterns and techniques like dependency injection. There are bookshelves filled with great old tomes on this stuff.
 One benefit of dependency injection is it makes a class' dependencies explicit, which makes the class easier to 
 reason about.
 
