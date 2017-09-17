@@ -478,7 +478,7 @@ Task.of('fun')
   .map((value) => value.toUpperCase()) // Task('FUN')
 ```
 
-Now if I want to pull a value out of a `Task` and use it in a new `Task` we know `map()` won't help, e.g.:
+Now if we want to pull a value out of a `Task` and use it in a new `Task` we know `map()` won't help us, e.g.:
 ```javascript
 Task.of('fun') // Task('fun')
   .map((value) => Task.of(value.toUpperCase())) // Task(Task('FUN'))
@@ -486,7 +486,7 @@ Task.of('fun') // Task('fun')
 but `chain()` will:
 ```javascript
 Task.of('fun') // Task('fun')
-  .map((value) => Task.of(value.toUpperCase())) // Task('FUN')
+  .chain((value) => Task.of(value.toUpperCase())) // Task('FUN')
 ```
 
 OK, let's consider the ``Task`` analog to the above ``Promise`` example:
