@@ -39,7 +39,6 @@ const start = (port) => new Task((rej, res) => {
 const displayResults = (tag) => (results) => {
   results = results || []
   pino.info({tag, amtResults: results.length, results})
-  return
 }
 
 module.exports = (tag) => (request) => {
