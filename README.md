@@ -402,7 +402,7 @@ result of `f(x)` back into a new functor (a new context) like `map()`, it's simp
 Now let's try composing 2 functors via `chain()`:
 ```javascript
 const simpleChain = identity.of(1)
-  .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1') mich nicer!
+  .chain((x) => identity.of(`Test ${x}`)) // Identity('Test 1') much nicer!
 ```
 Success! 
  
@@ -420,7 +420,7 @@ const identityMonad = ({
   // of() is also known as unit, pure, and point
   of: (x) => ({
     chain: (f) => f(x), // chain() is also known as flatMap or bind
-    map: (f) => identity.of(f(x)),
+    map: (f) => identityMonad.of(f(x)),
     // for debugging
     inspect: () => `Identity(${util.inspect(x, {depth: null})})`
   })
