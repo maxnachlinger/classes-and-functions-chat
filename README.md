@@ -21,17 +21,17 @@ node ./0-class/index.js
 ## 0 - Class
 [Relevant code](./0-class)
 
-A ``ThingRequest`` class.
+A `ThingRequest` class.
 
 ### Question:
-Where does ``ThingRequest::request()`` get its state from?
+Where does `ThingRequest::request()` get its state from?
 
 The answer is _lots of places_. The class instance, the function's arguments, the things we required above etc.
 
 How a function gets its state can be complicated. **Minimizing that complexity makes the function easier to think 
 about, work on, and test.**
 
-In ``ThingRequest`` we have class instance variables that influence ``request()``'s behavior several lines away from 
+In `ThingRequest` we have class instance variables that influence `request()`'s behavior several lines away from 
 that function. We can improve this.
 
 ### Consider this example of code calling a function vs a class + method:
@@ -43,19 +43,19 @@ f(a, b, c)
 const c = new C(a)
 c.f(b,c)
 ```
-The class approach sure adds a lot of complexity to save having to pass ``a`` to ``f()``.
+The class approach sure adds a lot of complexity to save having to pass `a` to `f()`.
 
 ---
 ## 1 - Function
 [Relevant code](./1-fx)
 
-This is a first pass at simplifying ``request()``. Now more of the function's state comes from it's arguments.
+This is a first pass at simplifying `request()`. Now more of the function's state comes from it's arguments.
 
-One benefit of this approach is that ``request()`` is open about its dependencies, which makes it easier to reason
+One benefit of this approach is that `request()` is open about its dependencies, which makes it easier to reason
 about.
 
 Some folks claim a benefit of classes is that you don't have to pass the state given to the constructor along to each
-instance method. The calling code in ``index.js`` shows that partial application is a reasonable way around that.
+instance method. The calling code in `index.js` shows that partial application is a reasonable way around that.
 
 In case you don't know what partial application is:
 
@@ -101,10 +101,10 @@ request(serviceConfig, {type: 'squirrels', limit: 5})
 ## 2 - Extract and compose pure functions
 [Relevant code](./2-fx-pure)
 
-A few new pure functions are extracted, namely ``prepareParams()``, ``prepareRequestParams()``, and 
-`transformResults()``.
+A few new pure functions are extracted, namely `prepareParams()`, `prepareRequestParams()`, and 
+`transformResults()` .
 
-Promises are used to compose those functions along with ``requestP()``.
+Promises are used to compose those functions along with `requestP()`.
 
 ### Benefits of this approach:
 - Each function gets just enough state to do it's job
@@ -128,8 +128,8 @@ Why should I care about all this Pure Function nonsense anyway?
 * They (can be) simple to reason about and maintain.
 * You can run N of them at once without issue (less of a concern in JS)
 
-It's worth noting that ``requestP()`` is _not_ pure. Its output varies based on state external to its input, namely 
-the network :) We can make ``requestP()`` pure, and we'll explore what that looks like later on.
+It's worth noting that `requestP()` is _not_ pure. Its output varies based on state external to its input, namely 
+the network :) We can make `requestP()` pure, and we'll explore what that looks like later on.
 
 ---
 ## Requirement-change: get a set of results from a REST API on the network and validate those results
@@ -138,16 +138,16 @@ the network :) We can make ``requestP()`` pure, and we'll explore what that look
 ## 3 - Class inheritance
 [Relevant code](./3-class-inheritance)
 
-This example adds result-validation by extending ``ThingRequest`` with a new child class ``ValidatedThingRequest``.
+This example adds result-validation by extending `ThingRequest` with a new child class `ValidatedThingRequest`.
 
-Unfortunately we had to modify ``ThingRequest`` and export ``serviceConfigSchema``, then use the exported 
-`serviceConfigSchema`` in ``ValidatedThingRequest``'s validation.
+Unfortunately we had to modify `ThingRequest` and export `serviceConfigSchema`, then use the exported 
+`serviceConfigSchema` in `ValidatedThingRequest`'s validation.
 
 ### Wait a moment
 Wasn't the whole point of inheritance the ability to reuse code without modifying it? Modifying a base class when
 inheriting is sadly quite common, and if lots of classes inherit from that base class, you can cause lots of bugs.
 
-There are other ways of structuring ``ThingRequest`` and ``ValidatedThingRequest`` to get around _some_ of these issues 
+There are other ways of structuring `ThingRequest` and `ValidatedThingRequest` to get around _some_ of these issues 
 but that's not the point here.
 
 The point is that **your requirements will change**, and when they do you'll not only have to change the functionality
@@ -162,8 +162,7 @@ side-effects to altering state are even less obvious.
 ## 4 - Class composition through Dependency Injection
 [Relevant code](./4-class-composition-di)
 
-This attempts to add result-validation by creating a class which adds that validation by having an instance of
-`ThingRequest`` injected into it.
+This attempts to add result-validation by creating a class which adds that validation by having an instance of `ThingRequest` injected into it.
 
 ### Dependency Injection
 
@@ -182,8 +181,8 @@ class ValidatedThingRequest {
 
 Notice that:
 
-1. ``ValidatedThingRequest`` is now responsible for creating and destroying that instance of ``ThingRequest``.
-2. It's also harder to test ``ValidatedThingRequest`` since we can easily supply a mocked ``ThingRequest``.
+1. `ValidatedThingRequest` is now responsible for creating and destroying that instance of `ThingRequest`.
+2. It's also harder to test `ValidatedThingRequest` since we can easily supply a mocked `ThingRequest`.
 3. There are loads of other benefits (like loose coupling and programming to interfaces) but those are less relevant 
 for Javascript IMHO.
 
@@ -197,10 +196,10 @@ class ValidatedThingRequest {
   
   // more methods here etc
 ```
-We're _injecting_ ``ValidatedThingRequest``'s ``ThingRequest`` dependency. 
+We're _injecting_ `ValidatedThingRequest`'s `ThingRequest` dependency. 
 
-Now we can easily mock thingRequest when testing, and ``ValidatedThingRequest`` isn't responsible for managing 
-`ThingRequest``. It can simply use the instance passed in.
+Now we can easily mock thingRequest when testing, and `ValidatedThingRequest` isn't responsible for managing 
+`ThingRequest`. It can simply use the instance passed in.
 
 The takeaway here is that if you're going to use classes to construct your programs, you should learn about OO Design
 Patterns and techniques like dependency injection. There are bookshelves filled with great old tomes on this stuff.
@@ -211,7 +210,7 @@ reason about.
 ## 5 - More pure function composition
 [Relevant code](./5-fx-pure-composition)
 
-`validate-result.js`` simply adds a validation check to the result. This function is curried because we have the 
+`validate-result.js`  simply adds a validation check to the result. This function is curried because we have the 
 result schema way before we have the result.
 
 In case you have no idea what currying is:
@@ -235,11 +234,11 @@ const _ = require('lodash')
 const getStuffLocal2 = _.curry(getStuff)('http://www.example.com')('secret-access-key')
 ```
 Of course you can only curry functions with a fixed arity (``arity == number of arguments``) or you'll have to provide 
-the function arity to the curry helper function up front (see lodash's ``curry`` function). 
+the function arity to the curry helper function up front (see lodash's `curry` function). 
 
 One thing I find helpful when creating new functions is to think of the arguments you're going to have values for 
-right away, and then add those arguments _first_ in the function. For example, we almost always have a ``joi`` 
-validation schema before we have data to validate. Wouldn't this ``joi.validate`` signature be nice?
+right away, and then add those arguments _first_ in the function. For example, we almost always have a `joi` 
+validation schema before we have data to validate. Wouldn't this `joi.validate` signature be nice?
 ```javascript
 joi.validate(schema, options, value, callback)
 ```
@@ -436,12 +435,12 @@ There are 3 laws monads must obey to be called monads, but I'm not going to go i
 theory, let's take some Monads out for a spin!
 
 ---
-## 7 - Awesome composition via the ``data.task`` Monad
+## 7 - Awesome composition via the `data.task` Monad
 [Relevant code](7-fx-data.task)
 
-This example introduces the ``data.task`` Monad from the [Folktale library](https://github.com/origamitower/folktale).
+This example introduces the `data.task` Monad from the [Folktale library](https://github.com/origamitower/folktale).
 
-Let's start out with the familiar ``Promise`` API, we'll then contrast it with ``data.task``:
+Let's start out with the familiar `Promise` API, we'll then contrast it with `data.task`:
 ```javascript
 const addPromiseYay = (value) => Promise.resolve(`${value} YAY! :)`)
 
@@ -450,8 +449,8 @@ const excitedPromise = Promise.resolve('fun') // = resolved Promise, execution s
   .then((value) => addPromiseYay(value)) // = resolved Promise
   .then(console.log) // = simple value
 ```
-Note that the ``Promise`` API does not make a distinction between returning a value, or a resolved Promise, both are 
-handled with ``.then()``.
+Note that the `Promise` API does not make a distinction between returning a value, or a resolved Promise, both are 
+handled with `.then()`.
 
 It's also worth noting that Promises run as soon as they're defined 
 ([per the ECMAScript spec](https://tc39.github.io/ecma262/#sec-promise-constructor)). This code:
@@ -489,7 +488,7 @@ Task.of('fun') // Task('fun')
   .chain((value) => Task.of(value.toUpperCase())) // Task('FUN')
 ```
 
-OK, let's consider the ``Task`` analog to the above ``Promise`` example:
+OK, let's consider the `Task` analog to the above `Promise` example:
 ```javascript
 const addTaskYay = (value) => Task.of(`${value} YAY! :)`)
 
@@ -515,12 +514,12 @@ to run the composed computations.
 ## 8 - (fun?) bonus
 [Relevant code](8-fx-data.task-parallel-calls)
 
-This example shows one way to run ``data.task``'s in parallel. It's included as a silly bonus, or something.
+This example shows one way to run `data.task`'s in parallel. It's included as a silly bonus, or something.
 
 ---
 ## Solutions not considered:
 ### Factory function
-It would have been possible to define ``request-things::request`` like this (pseudo code):
+It would have been possible to define `request-things::request` like this (pseudo code):
 ```javascript
 (serviceConfig) => {
   validateServiceConfig(serviceConfig) // only option is to throw here
@@ -530,7 +529,7 @@ It would have been possible to define ``request-things::request`` like this (pse
 }
 ```
 This design not only encourages devs to keep an instance of the returned function around in memory, but also the only 
-benefit to this design is when making a request, ``joi`` validates an object that looks like this:
+benefit to this design is when making a request, `joi` validates an object that looks like this:
 ```javascript
 {
   type: 'cool', 
@@ -550,7 +549,7 @@ instead of one which looks like this:
   }
 }
 ```
-Not much of a benefit, well, unless ``joi`` is our bottleneck :)
+Not much of a benefit, well, unless `joi` is our bottleneck :)
 
 ---
 ## Hey watch these videos, they're awesome!
