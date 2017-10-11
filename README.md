@@ -345,7 +345,20 @@ const simpleMap = identity.of(1)
 `of()` probably looks a lot like a constructor, but it isn't. `of()` is a common interface which allows us to create 
 a value and place it in a default minimal context. This is quite different from a constructor, constructors are by 
 definition tied to specific classes, `of()` is common. You'll also hear `of()` referred to as `unit`, `pure`, and 
-`point`.
+`point`. 
+
+It's worth noting that `Array` is actually a pointed functor:
+```javascript
+Array.of(1, 2, 3) // [1, 2, 3]
+Array.of(23.95, 'Fun', false) // [ 23.95, 'Fun', false ]
+```
+
+### Why is having a common interface like "of()" so important?
+
+Consider an array in Javascript. Is there a special syntax for `map()`-ing over an array of strings 
+versus an array of numbers? Of course there isn't :) Arrays if any type - or mixed types - share a 
+common interface (or API) which makes array quite flexible. Imagine how much more complex Javascript 
+would be if we had to learn an API per collection.
 
 ### when map() doesn't work
 
